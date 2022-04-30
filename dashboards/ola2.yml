@@ -1,4 +1,5 @@
 pages:
-- components:
+- name: Olá
+  components:
     - html: >-
             <p style="font-size: xx-large">Venceremos</p>
