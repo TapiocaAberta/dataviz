@@ -1,5 +1,5 @@
 dashbuilder = {
 
     path: 'dashboards',
-    dashboards: ["ola.yml"]
+    dashboards: ["ola.yml", "ola2.yml"]
 }
