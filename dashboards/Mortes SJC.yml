@@ -37,7 +37,7 @@ pages:
             legend:
               show: "true"
               position: "bottom"
-            width: "1000"
+            width: "3000"
             height: "500"
             resizable: 'true'
             margin:
