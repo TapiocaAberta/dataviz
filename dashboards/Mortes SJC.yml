@@ -8,17 +8,19 @@ datasets:
         type: LABEL
       - id: FUNERAL
         type: LABEL
+      - id: 2016
+        type: NUMBER
       - id: 2017
-        type: NUMBER
-      - id: 2019
-        type: NUMBER
-      - id: 2021
         type: NUMBER
       - id: 2020
         type: NUMBER
+      - id: 2021
+        type: NUMBER
       - id: 2018
         type: NUMBER
-      - id: 2016
+      - id: 2022
+        type: NUMBER
+      - id: 2019
         type: NUMBER
 pages:
   - name: index
@@ -32,18 +34,76 @@ pages:
           Dados sobre Corona Virus foram retirados do site <a href="https://brasil.io/covid19">Brasil IO.</a><br></span><br>
           Criado por <a href="http://sjcdigital.com">SJC Digital.</a><br><br>
       - settings:
-          type: BARCHART
-          chart:
+          component: echarts
+          echarts:
+            option: >-
+              {
+                  "toolbox": {
+                      "feature": {
+                          "dataZoom": {},
+                          "magicType": {
+                              "type": ["line", "bar", "stack"]
+                          },
+                          "saveAsImage": {}
+                      }   
+                  },
+                  "series": [
+                          { 
+                              "type": "bar",
+                              "markLine": {
+                                  "data": [
+                                      { "type": "max" }
+                                  ]
+                              } 
+                          
+                          },
+                          { 
+                              "type": "bar",
+                              "markLine": {
+                                  "data": [
+                                      { "type": "max" }
+                                  ]
+                              } 
+                          
+                          }, 
+                          { 
+                              "type": "bar",
+                              "markLine": {
+                                  "data": [
+                                      { "type": "max" }
+                                  ]
+                              } 
+                          },
+                          { 
+                              "type": "bar",
+                              "markLine": {
+                                  "data": [
+                                      { "type": "max" }
+                                  ]
+                              } 
+                              
+                          },
+                          { 
+                              "type": "bar",
+                              "markLine": {
+                                  "data": [
+                                      { "type": "max" }
+                                  ]
+                              }
+                      }
+                  ]
+                  
+              }
+            title:
+              text: Mortes registradas pela Urbam
             legend:
               show: "true"
-              position: "bottom"
-            width: "3000"
-            height: "500"
-            resizable: 'true'
-            margin:
-              bottom: "40"
+              bottom: "0"
+          external:
+            width: 100%
+            height: 500px
           columns:
-            - id: 2016
+            - id: 2019
               pattern: "#"
           dataSetLookup:
             uuid: death summary
@@ -52,10 +112,6 @@ pages:
                   source: MONTH
                 groupFunctions:
                   - source: MONTH
-                  - source: 2016
-                    function: SUM
-                  - source: 2017
-                    function: SUM
                   - source: 2018
                     function: SUM
                   - source: 2019
@@ -63,4 +119,6 @@ pages:
                   - source: 2020
                     function: SUM
                   - source: 2021
+                    function: SUM
+                  - source: 2022
                     function: SUM
