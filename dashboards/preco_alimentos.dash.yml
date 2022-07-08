@@ -1,0 +1,120 @@
+properties:
+    arquivo: preco_medio_mensal_atacado_sp_2018_2022.csv
+datasets:
+- uuid: produtos
+  url: https://raw.githubusercontent.com/sjcdigital/data-etl/main/precos_alimentos_conab/dados/${arquivo}
+  columns:
+    - id: Produto
+      type: label
+    - id: data
+      type: number
+    - id: valor
+      type: number
+    - id: mês
+      type: label
+  expression: >-
+            $.[
+               $[0],
+               $toMillis($[1], '[M]/[Y]'),
+               $[2], 
+               $[1]
+            ]
+pages:
+- components:
+    - html: >-
+                <strong style="font-size: xx-large"> Preço médio dos alimentos</strong>
+                <hr />
+                <p>
+                    Preço médio dos alimentos usando o arquivo <strong>${arquivo}</strong>. A fonte dos dados é o <a href="https://sisdep.conab.gov.br/precosiagroweb/" target="_blank">portal da CONAB</a> <br />
+                    
+                    Acesse outros arquivos usando os links abaixo:
+                    
+                    <ul>
+                        <li><a href="?arquivo=preco_medio_mensal_varejo_sp_2018_2022.csv&import=preco_alimentos.dash.yml">Preços do Varejo para São Paulo de  2018 até 2022</a></li>
+                        <li><a href="?arquivo=preco_medio_mensal_atacado_sp_2018_2022.csv&import=preco_alimentos.dash.yml">Preços Atacado para São Paulo de  2018 até 2022</a></li>
+                        <li><a href="?arquivo=preco_medio_mensal_produtor_sp_2018_2022.csv&import=preco_alimentos.dash.yml">Preços Produtor para São Paulo de  2018 até 2022</a></li>
+                        
+                    </ul>
+                    
+                    
+                    Selecione um produto abaixo para ver o valor especifíco. Caso não selecionado o valor total é mostrado.
+                    <br /><br />
+                    <div class="alert alert-warning"><span class="pficon pficon-warning-triangle-o"></span> Alguns preços de produtos podem não ser coletados em alguns meses, são coletados todos meses, ou seja, o valor somado não reflete o valor total de todos os produtos</div>
+                    
+                </p>
+                <hr />
+    - properties:
+        width: 250px
+      settings:
+        type: SELECTOR
+        filter:
+            enabled: "true"
+            notification: "true"
+        lookup:
+            uuid: produtos
+            group:
+                - columnGroup:
+                    source: Produto
+                  functions:
+                    - source: Produto
+    - html: >-
+            <p><br /><strong>Usando <em>${arquivo}</em></strong></p>
+    - settings:
+        component: echarts
+        echarts:
+            tooltip:
+                confine: "true"
+            option: >-
+                         {
+                              "title": {
+                                  "left": "center"
+                              },
+                              "toolbox": {
+                                  "feature": {
+                                      "dataZoom": {},
+                                      "magicType": {
+                                          "type": ["line", "bar", "stack"]
+                                      },
+                                      "saveAsImage": {}
+                                  }   
+                              },
+                              "series": [
+                                      { 
+                                          "type": "line",
+                                          "name": "Valor",
+                                          "areaStyle": {},
+                                          "markLine": {
+                                              "data": [
+                                                  { "type": "max", "name": "Máximo" },
+                                                  { "type": "min", "name": "Mínimo" },
+                                                  { "type": "average", "name": "Média" }
+                                              ]
+                                          } 
+                                      
+                                      }
+                               ]
+                              
+                          }
+                
+        filter:
+            enabled: "true"
+            listening: "true"
+        external:
+            width: 100%
+            height: 600px
+        lookup:
+            uuid: produtos
+            
+                    
+            sort:
+                - column: data
+                  order: ASCENDING
+            group:
+                
+                - columnGroup:
+                    source: mês
+                  functions:
+                    - source: mês
+                    - source: valor
+                      function: SUM
+                    - source: data
