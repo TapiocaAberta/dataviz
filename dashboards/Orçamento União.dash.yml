@@ -74,29 +74,6 @@ pages:
                           column: values
         - span: "4"
           components:
-            - html: <h3>PROGRAMA ORÇAMENTÁRIO</h3>
-            - settings:
-                type: PIECHART
-                chart:
-                filter:
-                    enabled: 'true'
-                    listening: 'true'
-                dataSetLookup:
-                  uuid: pop
-                  sort:
-                    - column: values
-                      order: DESCENDING
-                  group:
-                    - columnGroup:
-                        source: PROGRAMA ORÇAMENTÁRIO
-                      functions:
-                        - source: PROGRAMA ORÇAMENTÁRIO
-                        - source: ORÇAMENTO REALIZADO (R$)
-                          function: SUM
-                          column: values
-    - columns: 
-        - span: "4"
-          components:
             - html: <h3>FUNÇÃO</h3>
             - settings:
                 type: PIECHART
@@ -136,6 +113,73 @@ pages:
                         source: SUBFUNÇÃO
                       functions:
                         - source: SUBFUNÇÃO
+                        - source: ORÇAMENTO REALIZADO (R$)
+                          function: SUM
+                          column: values
+    - columns: 
+        - span: "4"
+          components:
+            - html: <h3>PROGRAMA ORÇAMENTÁRIO</h3>
+            - settings:
+                type: PIECHART
+                chart:
+                filter:
+                    enabled: 'true'
+                    listening: 'true'
+                dataSetLookup:
+                  uuid: pop
+                  sort:
+                    - column: values
+                      order: DESCENDING
+                  group:
+                    - columnGroup:
+                        source: PROGRAMA ORÇAMENTÁRIO
+                      functions:
+                        - source: PROGRAMA ORÇAMENTÁRIO
+                        - source: ORÇAMENTO REALIZADO (R$)
+                          function: SUM
+                          column: values
+        - span: "4"
+          components:
+            - html: <h3>AÇÃO</h3>
+            - settings:
+                type: PIECHART
+                chart:
+                filter:
+                    enabled: 'true'
+                    listening: 'true'
+                dataSetLookup:
+                  uuid: pop
+                  sort:
+                    - column: values
+                      order: DESCENDING
+                  group:
+                    - columnGroup:
+                        source: AÇÃO
+                      functions:
+                        - source: AÇÃO
+                        - source: ORÇAMENTO REALIZADO (R$)
+                          function: SUM
+                          column: values
+        - span: "4"
+          components:
+            - html: <h3>ELEMENTO DE DESPESA</h3>
+            - settings:
+                type: PIECHART
+                chart:
+                filter:
+                    enabled: 'true'
+                    listening: 'true'
+                dataSetLookup:
+                  uuid: pop
+                  sort:
+                    - column: values
+                      order: DESCENDING
+                  group:
+                    - columnGroup:
+                        source: ELEMENTO DE DESPESA
+                      functions:
+                        - source: ELEMENTO DE DESPESA
                         - source: ORÇAMENTO REALIZADO (R$)
                           function: SUM
                           column: values
