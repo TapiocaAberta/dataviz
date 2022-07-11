@@ -1,0 +1,147 @@
+datasets:
+  - uuid: pop
+    url: /datasets/2022_OrcamentoDespesa.csv
+    cacheEnabled: 'true'
+    columns:
+        - id: ÓRGÃO
+          type: label
+        - id: ÓRGÃO SUBORDINADO
+          type: label
+        - id: FUNÇÃO
+          type: label
+        - id: SUBFUNÇÃO
+          type: label
+        - id: PROGRAMA ORÇAMENTÁRIO
+          type: label
+        - id: AÇÃO
+          type: label
+        - id: ELEMENTO DE DESPESA
+          type: label
+        - id: ORÇAMENTO ATUALIZADO (R$)
+          type: number
+        - id: ORÇAMENTO EMPENHADO (R$)
+          type: number
+        - id: ORÇAMENTO REALIZADO (R$)
+          type: number
+
+pages:
+ - rows: 
+    - columns: 
+        - components:
+            - settings:
+                type: BARCHART
+                filter:
+                    enabled: 'true'
+                    notification: 'true'
+                chart:
+                    width: '2000'
+                    resizable: "true"
+                dataSetLookup:
+                  uuid: pop
+                  sort:
+                    - column: values
+                      order: DESCENDING
+                  group:
+                    - columnGroup:
+                        source: ÓRGÃO
+                      functions:
+                        - source: ÓRGÃO
+                        - source: ORÇAMENTO REALIZADO (R$)
+                          function: SUM
+                          column: values
+    - columns: 
+        - span: "4"
+          components:
+            - html: <h3>ÓRGÃO SUBORDINADO</h3>
+            - settings:
+                type: PIECHART
+             
+                filter:
+                    enabled: 'true'
+                    listening: 'true'
+                dataSetLookup:
+                  uuid: pop
+                  sort:
+                    - column: values
+                      order: DESCENDING
+                  group:
+                    - columnGroup:
+                        source: ÓRGÃO SUBORDINADO
+                      functions:
+                        - source: ÓRGÃO SUBORDINADO
+                        - source: ORÇAMENTO REALIZADO (R$)
+                          function: SUM
+                          column: values
+        - span: "4"
+          components:
+            - html: <h3>PROGRAMA ORÇAMENTÁRIO</h3>
+            - settings:
+                type: PIECHART
+                chart:
+                filter:
+                    enabled: 'true'
+                    listening: 'true'
+                dataSetLookup:
+                  uuid: pop
+                  sort:
+                    - column: values
+                      order: DESCENDING
+                  group:
+                    - columnGroup:
+                        source: PROGRAMA ORÇAMENTÁRIO
+                      functions:
+                        - source: PROGRAMA ORÇAMENTÁRIO
+                        - source: ORÇAMENTO REALIZADO (R$)
+                          function: SUM
+                          column: values
+    - columns: 
+        - span: "4"
+          components:
+            - html: <h3>FUNÇÃO</h3>
+            - settings:
+                type: PIECHART
+             
+                filter:
+                    enabled: 'true'
+                    listening: 'true'
+                dataSetLookup:
+                  uuid: pop
+                  sort:
+                    - column: values
+                      order: DESCENDING
+                  group:
+                    - columnGroup:
+                        source: FUNÇÃO
+                      functions:
+                        - source: FUNÇÃO
+                        - source: ORÇAMENTO REALIZADO (R$)
+                          function: SUM
+                          column: values
+        - span: "4"
+          components:
+            - html: <h3>SUBFUNÇÃO</h3>
+            - settings:
+                type: PIECHART
+                chart:
+                filter:
+                    enabled: 'true'
+                    listening: 'true'
+                dataSetLookup:
+                  uuid: pop
+                  sort:
+                    - column: values
+                      order: DESCENDING
+                  group:
+                    - columnGroup:
+                        source: SUBFUNÇÃO
+                      functions:
+                        - source: SUBFUNÇÃO
+                        - source: ORÇAMENTO REALIZADO (R$)
+                          function: SUM
+                          column: values
+    - columns: 
+        - span: "4"
+          components:
+            - settings:
+                dataSetLookup:
+                  uuid: pop
