@@ -1,5 +1,5 @@
 dashbuilder = {
     hideNavBar: true,
     path: 'dashboards',
-    dashboards: ["Mortes SJC.yml", "preco_alimentos.dash.yml", "IDEB x FUNDEB.dash.yaml"]
+    dashboards: ["Mortes SJC.yml", "preco_alimentos.dash.yml", "IDEB x FUNDEB.dash.yaml", "Orçamento União.dash.yml"]
 }
