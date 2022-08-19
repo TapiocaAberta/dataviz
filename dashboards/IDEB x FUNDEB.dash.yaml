@@ -17,6 +17,7 @@ properties:
 datasets:
   - uuid: pop
     cacheEnabled: true
+    refreshTime: 1000minute
     url: https://raw.githubusercontent.com/sjcdigital/repasse-analises/main/data/ideb_repasse/fundeb/estado/${estado}.csv
     columns:
       - id: ID
