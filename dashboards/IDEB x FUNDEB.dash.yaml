@@ -79,7 +79,7 @@ pages:
                     Esse dashboard mostra os dados de métricas de um munícipio juntamente com os dados de repasse para do governo federal usando o FUNDEB.
                     <br />
                     O estado selecionado é <strong>${estado}</strong>. Para selecionar outro estado clique abaixo: <br />
-                    <div style="max-height: 100px; overflow: auto; background-color: lightgray; width: 250px">
+                    <div style="max-height: 100px; width: 100%; overflow-y: scroll; background-color: #EEEEEE; solid; width: 250px">
 
                     <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=AC">Acre - AC</a> <br />
                     <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=AL">Alagoas - AL</a> <br />
