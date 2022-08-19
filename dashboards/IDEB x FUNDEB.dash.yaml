@@ -15,7 +15,7 @@ properties:
                             ]
                           }
 datasets:
-  - uuid: pop
+  - uuid: ideb_fundeb
     cacheEnabled: true
     refreshTime: 1000minute
     url: https://raw.githubusercontent.com/sjcdigital/repasse-analises/main/data/ideb_repasse/fundeb/estado/${estado}.csv
@@ -119,7 +119,7 @@ pages:
                     enabled: "true"
                     notification: "true"
                   dataSetLookup:
-                    uuid: pop
+                    uuid: ideb_fundeb
                     group:
                       - columnGroup:
                           source: MUNICIPIO
@@ -148,7 +148,7 @@ pages:
                     height: "90"
 
                   dataSetLookup:
-                    uuid: pop
+                    uuid: ideb_fundeb
                     group:
                       - groupFunctions:
                           - source: IDHM
@@ -169,7 +169,7 @@ pages:
                     width: "150"
                     height: "90"
                   dataSetLookup:
-                    uuid: pop
+                    uuid: ideb_fundeb
                     group:
                       - groupFunctions:
                           - source: IDH_EDUCACAO
@@ -190,7 +190,7 @@ pages:
                     width: "150"
                     height: "90"
                   dataSetLookup:
-                    uuid: pop
+                    uuid: ideb_fundeb
                     group:
                       - groupFunctions:
                           - source: IDH_LONGEVIDADE
@@ -214,7 +214,7 @@ pages:
                     - id: Total
                       pattern: "#"
                   dataSetLookup:
-                    uuid: pop
+                    uuid: ideb_fundeb
                     group:
                       - groupFunctions:
                           - source: IDH_RENDA
@@ -232,7 +232,7 @@ pages:
                   echarts:
                     option: ${globalChartOption}
                     series:
-                      type: bar
+                      type: line
                     title:
                       show: true
                       text: Fundamental Anos Iniciais
@@ -241,7 +241,10 @@ pages:
                     enabled: "true"
                     listening: "true"
                   dataSetLookup:
-                    uuid: pop
+                    uuid: ideb_fundeb
+                    sort:
+                      - column: ANO_IDEB
+                        sortOrder: ASCENDING
                     filter:
                       - column: PERIODO
                         function: EQUALS_TO
@@ -260,7 +263,7 @@ pages:
                   echarts:
                     option: ${globalChartOption}
                     series:
-                      type: bar
+                      type: line
                     title:
                       show: true
                       text: Fundamental Anos Finais
@@ -269,7 +272,10 @@ pages:
                     enabled: "true"
                     listening: "true"
                   dataSetLookup:
-                    uuid: pop
+                    uuid: ideb_fundeb
+                    sort:
+                      - column: ANO_IDEB
+                        sortOrder: ASCENDING
                     filter:
                       - column: PERIODO
                         function: EQUALS_TO
@@ -288,7 +294,7 @@ pages:
                   echarts:
                     option: ${globalChartOption}
                     series:
-                      type: bar
+                      type: line
                     title:
                       show: true
                       text: Ensino Médio
@@ -297,7 +303,10 @@ pages:
                     enabled: "true"
                     listening: "true"
                   dataSetLookup:
-                    uuid: pop
+                    uuid: ideb_fundeb
+                    sort:
+                      - column: ANO_IDEB
+                        sortOrder: ASCENDING
                     filter:
                       - column: PERIODO
                         function: EQUALS_TO
@@ -331,7 +340,7 @@ pages:
                     enabled: "true"
                     listening: "true"
                   dataSetLookup:
-                    uuid: pop
+                    uuid: ideb_fundeb
                     sort:
                       - column: ANO_REPASSE
                         sortOrder: ASCENDING
