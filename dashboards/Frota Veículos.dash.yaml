@@ -1,0 +1,94 @@
+datasets:
+    - uuid: frota
+      cacheEnabled: true
+      url: https://raw.githubusercontent.com/sjcdigital/data-etl/main/frota_veiculos/frota_munic_modelo_julho_2022.csv
+      columns:
+          - id: estado
+            type: LABEL
+          - id: cidade
+            type: LABEL
+          - id: tipo
+            type: LABEL
+          - id: qtde
+            type: number
+pages:
+    - components:
+          - html: <h2>Resumo da frota de veículos</h2><hr />
+          - html: <strong>Filtrar por estado</strong>
+          - properties:
+                width: 200px
+            settings:
+                type: SELECTOR
+                filter:
+                    enabled: "true"
+                    notification: "true"
+                lookup:
+                    uuid: frota
+                    group:
+                        - columnGroup:
+                              source: estado
+                          functions:
+                              - source: estado
+          - html: <strong>Filtrar por Tipo</strong>
+          - properties:
+                width: 200px
+            settings:
+                type: SELECTOR
+                filter:
+                    enabled: "true"
+                    notification: "true"
+                lookup:
+                    uuid: frota
+                    group:
+                        - columnGroup:
+                              source: tipo
+                          functions:
+                              - source: tipo
+          - html: <h3>Frota por tipo</h3>
+          - settings:
+                component: echarts
+                echarts:
+                    series:
+                        type: bar
+                external:
+                    width: 100%
+                filter:
+                    enabled: "true"
+                    listening: "true"
+                lookup:
+                    uuid: frota
+                    sort:
+                        - column: TOTAL
+                          sortOrder: DESCENDING
+                    group:
+                        - columnGroup:
+                              source: tipo
+                          functions:
+                              - source: tipo
+                              - source: qtde
+                                function: SUM
+                                column: total
+          - html: <h3>Frota por Estado</h3>
+          - settings:
+                component: echarts
+                echarts:
+                    series:
+                        type: bar
+                external:
+                    width: 100%
+                filter:
+                    enabled: "true"
+                    listening: "true"
+                lookup:
+                    uuid: frota
+                    sort:
+                        - column: TOTAL
+                          sortOrder: DESCENDING
+                    group:
+                        - columnGroup:
+                              source: estado
+                          functions:
+                              - source: estado
+                              - source: qtde
+                                function: SUM
+                                column: total
