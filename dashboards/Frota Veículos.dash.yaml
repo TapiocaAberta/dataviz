@@ -1,6 +1,7 @@
 datasets:
     - uuid: frota
       cacheEnabled: true
+      refreshTime: 10minute
       url: https://raw.githubusercontent.com/sjcdigital/data-etl/main/frota_veiculos/frota_munic_modelo_julho_2022.csv
       columns:
           - id: estado
