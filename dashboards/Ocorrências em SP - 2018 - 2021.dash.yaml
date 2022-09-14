@@ -1,0 +1,164 @@
+datasets:
+    - uuid: ocorrencias
+      url: https://raw.githubusercontent.com/sjcdigital/data-etl/main/seguranca_sp/ocorrencias_2018_2021.csv
+      cacheEnabled: true
+      columns:
+          - id: data
+            type: label
+          - id: ano
+            type: label
+          - id: mes
+            type: label
+          - id: Homicídio Doloso
+            type: label
+          - id: lesao_corp_morte
+            type: label
+          - id: Latrocínio
+            type: label
+          - id: Crimes Violentos Letais Intencionais
+            type: label
+          - id: Mortes por intervenção policial
+            type: label
+          - id: Letalidade Violenta
+            type: label
+          - id: Tentativa Homicídio
+            type: label
+          - id: lesao_corp_dolosa
+            type: label
+          - id: Estupro
+            type: label
+          - id: Homicídio Culposo
+            type: label
+          - id: Lesão Corporal Culposa
+            type: label
+          - id: roubo_transeunte
+            type: label
+          - id: roubo_celular
+            type: label
+          - id: roubo_em_coletivo
+            type: label
+          - id: roubo_rua
+            type: label
+          - id: roubo_veiculo
+            type: label
+          - id: roubo_carga
+            type: label
+          - id: roubo_comercio
+            type: label
+          - id: roubo_residencia
+            type: label
+          - id: roubo_banco
+            type: label
+          - id: roubo_cx_eletronico
+            type: label
+          - id: roubo_conducao_saque
+            type: label
+          - id: roubo_apos_saque
+            type: label
+          - id: roubo_bicicleta
+            type: label
+          - id: outros_roubos
+            type: label
+          - id: Total Roubos
+            type: label
+          - id: furto_veiculos
+            type: label
+          - id: furto_transeunte
+            type: label
+          - id: furto_coletivo
+            type: label
+          - id: furto_celular
+            type: label
+          - id: furto_bicicleta
+            type: label
+          - id: outros_furtos
+            type: label
+          - id: Total Furtos
+            type: label
+          - id: Sequestro
+            type: label
+          - id: Extorsão
+            type: label
+          - id: Sequestro Relâmpago
+            type: label
+          - id: Estelionato
+            type: label
+          - id: Apreensão de Drogas
+            type: label
+          - id: Posse Drogas
+            type: label
+          - id: Tráfico Drogas
+            type: label
+          - id: Apreensão de Drogas_sem_autor
+            type: label
+          - id: recuperacao_veiculos
+            type: label
+          - id: Auto de Prisão em Flagrante
+            type: label
+          - id: aaapai
+            type: label
+          - id: cmp
+            type: label
+          - id: cmba
+            type: label
+          - id: Ameaça
+            type: label
+          - id: pessoas_desaparecidas
+            type: label
+          - id: encontro_cadaver
+            type: label
+          - id: encontro_ossada
+            type: label
+          - id: pol_militares_mortos_serv
+            type: label
+          - id: pol_civis_mortos_serv
+            type: label
+          - id: registro_ocorrencias
+            type: label
+
+pages:
+    - components:
+          - html: >-
+                  <h1>Ocorrências no Estado de São Paulo</h1> <hr />
+                  <p>
+                    Crimes no estado de São Paulo de 2018 até 2021.
+                  </p>
+
+          - settings:
+                component: echarts
+                external:
+                    width: 100%
+                    height: 600px
+                echarts:
+                    series:
+                        type: line
+                    legend:
+                        show: "true"
+                        top: bottom
+                        type: scroll
+                lookup:
+                    uuid: ocorrencias
+                    group:
+                        - functions:
+                              - source: data
+                              - source: Homicídio Doloso
+                              - source: Latrocínio
+                              - source: Crimes Violentos Letais Intencionais
+                              - source: Mortes por intervenção policial
+                              - source: Letalidade Violenta
+                              - source: Tentativa Homicídio
+                              - source: lesao_corp_dolosa
+                              - source: Estupro
+                              - source: Homicídio Culposo
+                              - source: Lesão Corporal Culposa
+                              - source: Total Roubos
+                              - source: Total Furtos
+                              - source: Sequestro
+                              - source: Extorsão
+                              - source: Sequestro Relâmpago
+                              - source: Estelionato
+                              - source: Apreensão de Drogas
+                              - source: Posse Drogas
+                              - source: Tráfico Drogas
+                              - source: Auto de Prisão em Flagrante
+                              - source: Ameaça    
