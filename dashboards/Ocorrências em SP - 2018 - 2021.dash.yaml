@@ -2,6 +2,7 @@ datasets:
     - uuid: ocorrencias
       url: https://raw.githubusercontent.com/sjcdigital/data-etl/main/seguranca_sp/ocorrencias_2018_2021.csv
       cacheEnabled: true
+      refreshTime: 10minute
       columns:
           - id: data
             type: label
