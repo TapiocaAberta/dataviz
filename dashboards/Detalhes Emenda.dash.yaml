@@ -3,6 +3,50 @@ properties:
 datasets:
   - uuid: emenda
     url: https://raw.githubusercontent.com/sjcdigital/data-analizes/main/orcamento-secreto/data-json/${arquivo}
+    expression: >-
+      $.[
+          $.id,
+          $.ano,
+          $.autor,
+          $.numeroEmenda,
+          $.codigoEmenda,
+          $.localidade,
+          $.funcao,
+          $.subfuncao,
+          $.empenhado,
+          $.pago,
+          $.liquido,
+          $count($.documentos)
+      ]
+    columns:
+      - id: ID
+        type: LABEL
+      - id: Ano
+        type: LABEL
+      - id: Autor
+        type: LABEL
+      - id: Número da Emenda
+        type: LABEL
+      - id: Código da Emenda
+        type: LABEL
+      - id: localidade da Emenda
+        type: LABEL
+      - id: Função da Emenda
+        type: LABEL
+      - id: Sub Função da Emenda
+        type: LABEL
+      - id: Valor Empenhado da Emenda
+        type: label
+      - id: Valor Pago da Emenda
+        type: label
+      - id: Valor Líquido da Emenda
+        type: label
+      - id: Total Documentos
+        type: label
+
+    cacheEnabled: true
+  - uuid: documentos_emenda
+    url: https://raw.githubusercontent.com/sjcdigital/data-analizes/main/orcamento-secreto/data-json/${arquivo}
     cacheEnabled: true
     expression: >-
       $.documentos.[                
@@ -140,13 +184,29 @@ pages:
           font-size: large
           margin-top: 10px
       - settings:
+          type: METRIC
+          html:
+            html: >-
+              <strong style="font-size: large; color: red" id="${this}">Essa emenda não possuí documentos!<br /><br /></strong>
+            javascript: >-
+              if (${value} != 0) {
+                  ${this}.style.display = "none";
+              }
+
+          lookup:
+            uuid: emenda
+            group:
+              - functions:
+                  - source: Total Documentos
+                    function: MAX
+      - settings:
           component: table
           table:
             linkColumn: Código da Emenda
             linkTemplate: https://www.portaltransparencia.gov.br/emendas/${value}
           external:
             width: 600px
-            height: 400px
+            height: 450px
           lookup:
             rowCount: 1
             uuid: emenda
@@ -163,6 +223,7 @@ pages:
                   - source: Valor Empenhado da Emenda
                   - source: Valor Pago da Emenda
                   - source: Valor Líquido da Emenda
+                  - source: Total Documentos
 
   - properties:
       margin-left: 10px
@@ -208,7 +269,7 @@ pages:
                 interval: "0"
                 rotate: "12"
           lookup:
-            uuid: emenda
+            uuid: documentos_emenda
             rowCount: 10
             sort:
               - column: Total
@@ -246,7 +307,7 @@ pages:
                 value.replace(/(\.|\/|-)/g, "");
               name: Link Portal da Transparência
           lookup:
-            uuid: emenda
+            uuid: documentos_emenda
             sort:
               - column: Total (R$)
                 sortOrder: DESCENDING
@@ -287,7 +348,7 @@ pages:
             linkColumn: Código Documento
             linkTemplate: https://www.portaltransparencia.gov.br/despesas/documento/empenho/${value}
           lookup:
-            uuid: emenda
+            uuid: documentos_emenda
             filter:
               - column: Fase Documento
                 function: EQUALS_TO
@@ -338,7 +399,7 @@ pages:
             linkColumn: Código Documento
             linkTemplate: https://www.portaltransparencia.gov.br/despesas/documento/liquidacao/${value}
           lookup:
-            uuid: emenda
+            uuid: documentos_emenda
             filter:
               - column: Fase Documento
                 function: EQUALS_TO
@@ -389,7 +450,7 @@ pages:
             linkColumn: Código Documento
             linkTemplate: https://www.portaltransparencia.gov.br/despesas/documento/pagamento/${value}
           lookup:
-            uuid: emenda
+            uuid: documentos_emenda
             filter:
               - column: Fase Documento
                 function: EQUALS_TO
@@ -439,7 +500,7 @@ pages:
                     enabled: "true"
                     notification: "true"
                   lookup:
-                    uuid: emenda
+                    uuid: documentos_emenda
                     filter:
                       - column: Valor Documento
                         function: NOT_EQUALS_TO
@@ -476,7 +537,7 @@ pages:
                         interval: "0"
                         rotate: "12"
                   lookup:
-                    uuid: emenda
+                    uuid: documentos_emenda
                     sort:
                       - column: Total
                         sortOrder: DESCENDING
@@ -516,7 +577,7 @@ pages:
                     series:
                       type: bar
                   lookup:
-                    uuid: emenda
+                    uuid: documentos_emenda
                     sort:
                       - column: Total
                         sortOrder: DESCENDING
@@ -556,7 +617,7 @@ pages:
                     series:
                       type: bar
                   lookup:
-                    uuid: emenda
+                    uuid: documentos_emenda
                     sort:
                       - column: Total
                         sortOrder: DESCENDING
@@ -588,7 +649,7 @@ pages:
                     linkColumn: Código do Orgão Superior
                     linkTemplate: https://www.portaltransparencia.gov.br/orgaos/${value}
                   lookup:
-                    uuid: emenda
+                    uuid: documentos_emenda
                     sort:
                       - column: Total (R$)
                         sortOrder: DESCENDING
