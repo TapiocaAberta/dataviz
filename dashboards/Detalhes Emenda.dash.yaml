@@ -1,0 +1,612 @@
+properties:
+  arquivo: /2022/115--0309-0309.json
+datasets:
+  - uuid: emenda
+    url: https://raw.githubusercontent.com/sjcdigital/data-analizes/main/orcamento-secreto/data-json/${arquivo}
+    cacheEnabled: true
+    expression: >-
+      $.documentos.[                
+          [                  
+              %.id,
+              %.ano,
+              %.autor,
+              %.numeroEmenda,
+              %.codigoEmenda,
+              %.localidade,
+              %.funcao,
+              %.subfuncao,
+              %.empenhado,
+              %.pago,
+              %.liquido,
+
+              $.data, 
+              $.fase,
+              $.codigoDocumento,
+
+              $.codigoDocumentoResumido,
+              $.especieTipo,
+              $.observacao,        
+              $.tipo,
+              $length($.valorDocumento)=0 ? -1 : $replace($replace($replace($.valorDocumento, /(R\$ |\.|\s)/ , ""), ",", "."), /-$/, "-1"),
+              $.valorDocumento,
+              $.descricao, 
+
+              $.favorecido.docFavorecido,
+              $.favorecido.docFavorecido,
+              $.favorecido.nome,
+
+              $.orgaopagador.orgaoSuperiorCod,
+              $.orgaopagador.orgaoSuperiorNome,
+              
+              $.orgaopagador.entidadeVinculadaCod,
+              $.orgaopagador.entidadeVinculadaNome,
+              
+              $.orgaopagador.unidadeGestoraCod,
+              $.orgaopagador.unidadeGestoraNome,
+
+              $.orgaopagador.gestaoCod,
+              $.orgaopagador.gestaoNome
+          ]    
+      ]
+    columns:
+      - id: ID
+        type: LABEL
+      - id: Ano
+        type: LABEL
+      - id: Autor
+        type: LABEL
+      - id: Número da Emenda
+        type: LABEL
+      - id: Código da Emenda
+        type: LABEL
+      - id: localidade da Emenda
+        type: LABEL
+      - id: Função da Emenda
+        type: LABEL
+      - id: Sub Função da Emenda
+        type: LABEL
+      - id: Valor Empenhado da Emenda
+        type: label
+      - id: Valor Pago da Emenda
+        type: label
+      - id: Valor Líquido da Emenda
+        type: label
+
+      - id: Data Documento
+        type: LABEL
+      - id: Fase Documento
+        type: LABEL
+      - id: Código Documento
+        type: LABEL
+      - id: Código Documento Resumido
+        type: LABEL
+      - id: Tipo Espécie
+        type: LABEL
+      - id: Observação
+        type: LABEL
+      - id: Tipo
+        type: LABEL
+      - id: Valor Documento
+        type: Number
+      - id: Valor Documento (original)
+        type: label
+      - id: Descrição
+        type: LABEL
+
+      - id: Documento do Favorecido
+        type: LABEL
+      - id: Documento do Favorecido 2
+        type: LABEL
+      - id: Nome do Favorecido
+        type: LABEL
+
+      - id: Código do Orgão Superior
+        type: LABEL
+      - id: Nome do Orgão Superior
+        type: LABEL
+
+      - id: Código da Entidade Vinculada
+        type: LABEL
+      - id: Nome da Entidade Vinculada
+        type: LABEL
+
+      - id: Código da Unidade Gestora
+        type: LABEL
+      - id: Nome da Unidade Gestora
+        type: LABEL
+
+      - id: Código da Gestão
+        type: LABEL
+      - id: Nome da Gestão
+        type: LABEL
+navTree:
+  root_items:
+    - type: GROUP
+      name: Documentos da Emenda
+      id: orcamento
+      children:
+        - page: Dados da Emenda
+        - page: Orgão Pagador
+        - page: Favorecidos
+
+        - page: Documentos Fase Pago
+        - page: Documentos Fase Liquidação
+        - page: Documentos Fase Empenho
+pages:
+  - name: Dados da Emenda
+    components:
+      - html: <strong>Detalhes da Emenda</strong><hr />
+        properties:
+          font-size: large
+          margin-top: 10px
+      - settings:
+          component: table
+          table:
+            linkColumn: Código da Emenda
+            linkTemplate: https://www.portaltransparencia.gov.br/emendas/${value}
+          external:
+            width: 600px
+            height: 400px
+          lookup:
+            rowCount: 1
+            uuid: emenda
+            group:
+              - functions:
+                  - source: ID
+                  - source: Ano
+                  - source: Autor
+                  - source: Número da Emenda
+                  - source: Código da Emenda
+                  - source: Localidade da Emenda
+                  - source: Função da Emenda
+                  - source: Sub Função da Emenda
+                  - source: Valor Empenhado da Emenda
+                  - source: Valor Pago da Emenda
+                  - source: Valor Líquido da Emenda
+
+  - properties:
+      margin-left: 10px
+    name: index
+    components:
+      - html: >-
+          <strong style='font-size: x-large'> Documentos da emenda</strong>
+          <hr />
+          <p>
+              Nesse dashboard destamos os documentos de uma emenda parlamentar.  
+              <br />
+              Cada dado é linkado ao Portal da Transparência (clique nos links)
+              <br />
+              Para problemas use nosso <a href="https://github.com/sjcdigital/data-analizes">github</a>.
+              <br />
+          </p>
+      - type: TABS
+        properties:
+          navGroupId: orcamento
+          targetDivId: orcamento_div
+      - type: DIV
+        properties:
+          divId: orcamento_div
+  - name: Favorecidos
+    properties:
+      margin-top: 20px
+      margin-left: 10px
+    components:
+      - settings:
+          component: echarts
+          external:
+            width: 100%
+            height: 400px
+          echarts:
+            grid:
+              containLabel: "true"
+            title:
+              text: 10 Maiores Favorecidos por soma de valor na fase pagamento
+            series:
+              type: bar
+            xAxis:
+              axisLabel:
+                interval: "0"
+                rotate: "12"
+          lookup:
+            uuid: emenda
+            rowCount: 10
+            sort:
+              - column: Total
+                sortOrder: DESCENDING
+            filter:
+              - column: Valor Documento
+                function: NOT_EQUALS_TO
+                args:
+                  - -1
+              - column: Fase Documento
+                function: EQUALS_TO
+                args:
+                  - "Pagamento"
+            group:
+              - columnGroup:
+                  source: Nome do Favorecido
+                functions:
+                  - source: Nome do Favorecido
+                  - source: Valor Documento
+                    function: SUM
+                    column: Total
+      - html: <strong>Lista dos favorecidos por valor</strong><hr />
+        properties:
+          font-size: large
+      - settings:
+          component: table
+          external:
+            width: 100%
+          table:
+            linkColumn: Link Portal da Transparência
+            linkTemplate: https://portaltransparencia.gov.br/pessoa-juridica/${value}
+          columns:
+            - id: Documento do Favorecido 2
+              expression: >-
+                value.replace(/(\.|\/|-)/g, "");
+              name: Link Portal da Transparência
+          lookup:
+            uuid: emenda
+            sort:
+              - column: Total (R$)
+                sortOrder: DESCENDING
+            filter:
+              - column: Valor Documento
+                function: NOT_EQUALS_TO
+                args:
+                  - -1
+              - column: Fase Documento
+                function: EQUALS_TO
+                args:
+                  - "Pagamento"
+            group:
+              - columnGroup:
+                  source: Nome do Favorecido
+                functions:
+                  - source: Nome do Favorecido
+                  - source: Documento do Favorecido
+                  - source: Documento do Favorecido 2
+                  - source: Valor Documento
+                    function: SUM
+                    column: Total (R$)
+  - name: Documentos Fase Empenho
+    properties:
+      margin-top: 20px
+      margin-left: 10px
+    components:
+      - html: >-
+          <h2>Lista de documentos na Fase Empenho</h2><hr/>
+        properties:
+          font-size: x-large
+      - settings:
+          component: table
+          external:
+            width: 100%
+            height: 600px
+          table:
+            linkColumn: Código Documento
+            linkTemplate: https://www.portaltransparencia.gov.br/despesas/documento/empenho/${value}
+          lookup:
+            uuid: emenda
+            filter:
+              - column: Fase Documento
+                function: EQUALS_TO
+                args:
+                  - "Empenho"
+            group:
+              - functions:
+                  - source: Código Documento
+                  - source: Data Documento
+                  - source: Fase Documento
+                  - source: Código Documento Resumido
+                  - source: Valor Documento (original)
+                  - source: Valor Documento
+                  - source: Tipo Espécie
+                  - source: Observação
+                  - source: Tipo
+                  - source: Descrição
+
+                  - source: Documento do Favorecido
+                  - source: Nome do Favorecido
+
+                  - source: Código do Orgão Superior
+                  - source: Nome do Orgão Superior
+
+                  - source: Código da Entidade Vinculada
+                  - source: Nome da Entidade Vinculada
+
+                  - source: Código da Unidade Gestora
+                  - source: Nome da Unidade Gestora
+
+                  - source: Código da Gestão
+                  - source: Nome da Gestão
+  - name: Documentos Fase Liquidação
+    properties:
+      margin-top: 20px
+      margin-left: 10px
+    components:
+      - html: >-
+          <h2>Lista de documentos na Fase Liquidação</h2><hr/>
+        properties:
+          font-size: x-large
+      - settings:
+          component: table
+          external:
+            width: 100%
+            height: 600px
+          table:
+            linkColumn: Código Documento
+            linkTemplate: https://www.portaltransparencia.gov.br/despesas/documento/liquidacao/${value}
+          lookup:
+            uuid: emenda
+            filter:
+              - column: Fase Documento
+                function: EQUALS_TO
+                args:
+                  - Liquidação
+            group:
+              - functions:
+                  - source: Código Documento
+                  - source: Data Documento
+                  - source: Fase Documento
+                  - source: Código Documento Resumido
+                  - source: Valor Documento (original)
+                  - source: Valor Documento
+                  - source: Tipo Espécie
+                  - source: Observação
+                  - source: Tipo
+                  - source: Descrição
+
+                  - source: Documento do Favorecido
+                  - source: Nome do Favorecido
+
+                  - source: Código do Orgão Superior
+                  - source: Nome do Orgão Superior
+
+                  - source: Código da Entidade Vinculada
+                  - source: Nome da Entidade Vinculada
+
+                  - source: Código da Unidade Gestora
+                  - source: Nome da Unidade Gestora
+
+                  - source: Código da Gestão
+                  - source: Nome da Gestão
+  - name: Documentos Fase Pago
+    properties:
+      margin-top: 20px
+      margin-left: 10px
+    components:
+      - html: >-
+          <h2>Lista de documentos na Fase Pagamento</h2><hr/>
+        properties:
+          font-size: x-large
+      - settings:
+          component: table
+          external:
+            width: 100%
+            height: 600px
+          table:
+            linkColumn: Código Documento
+            linkTemplate: https://www.portaltransparencia.gov.br/despesas/documento/pagamento/${value}
+          lookup:
+            uuid: emenda
+            filter:
+              - column: Fase Documento
+                function: EQUALS_TO
+                args:
+                  - Pagamento
+            group:
+              - functions:
+                  - source: Código Documento
+                  - source: Data Documento
+                  - source: Fase Documento
+                  - source: Código Documento Resumido
+                  - source: Valor Documento (original)
+                  - source: Valor Documento
+                  - source: Tipo Espécie
+                  - source: Observação
+                  - source: Tipo
+                  - source: Descrição
+
+                  - source: Documento do Favorecido
+                  - source: Nome do Favorecido
+
+                  - source: Código do Orgão Superior
+                  - source: Nome do Orgão Superior
+
+                  - source: Código da Entidade Vinculada
+                  - source: Nome da Entidade Vinculada
+
+                  - source: Código da Unidade Gestora
+                  - source: Nome da Unidade Gestora
+
+                  - source: Código da Gestão
+                  - source: Nome da Gestão
+  - name: Orgão Pagador
+    properties:
+      margin-top: 20px
+      margin-left: 10px
+    rows:
+      - columns:
+          - components:
+              - html: <strong> Filtrar Por orgão Superior</strong>
+              - properties:
+                  width: 200px
+                  margin-bottom: 20px
+                settings:
+                  type: SELECTOR
+                  filter:
+                    enabled: "true"
+                    notification: "true"
+                  lookup:
+                    uuid: emenda
+                    filter:
+                      - column: Valor Documento
+                        function: NOT_EQUALS_TO
+                        args:
+                          - -1
+                      - column: Fase Documento
+                        function: EQUALS_TO
+                        args:
+                          - Pagamento
+                    group:
+                      - columnGroup:
+                          source: Nome do Orgão Superior
+                        functions:
+                          - source: Nome do Orgão Superior
+      - columns:
+          - components:
+              - settings:
+                  component: echarts
+                  filter:
+                    enabled: "true"
+                    listening: "true"
+                  external:
+                    width: 100%
+                    height: 400px
+                  echarts:
+                    grid:
+                      containLabel: "true"
+                    title:
+                      text: Unidade Gestora
+                    series:
+                      type: bar
+                    xAxis:
+                      axisLabel:
+                        interval: "0"
+                        rotate: "12"
+                  lookup:
+                    uuid: emenda
+                    sort:
+                      - column: Total
+                        sortOrder: DESCENDING
+                    filter:
+                      - column: Valor Documento
+                        function: NOT_EQUALS_TO
+                        args:
+                          - -1
+                      - column: Fase Documento
+                        function: EQUALS_TO
+                        args:
+                          - Pagamento
+                    group:
+                      - columnGroup:
+                          source: Nome da Unidade Gestora
+                        functions:
+                          - source: Nome da Unidade Gestora
+                          - source: Valor Documento
+                            function: SUM
+                            column: Total
+      - columns:
+          - span: "6"
+            components:
+              - settings:
+                  component: echarts
+                  filter:
+                    enabled: "true"
+                    listening: "true"
+                  external:
+                    width: 100%
+                    height: 300px
+                  echarts:
+                    grid:
+                      containLabel: "true"
+                    title:
+                      text: Entidade Vinculada
+                    series:
+                      type: bar
+                  lookup:
+                    uuid: emenda
+                    sort:
+                      - column: Total
+                        sortOrder: DESCENDING
+                    filter:
+                      - column: Valor Documento
+                        function: NOT_EQUALS_TO
+                        args:
+                          - -1
+                      - column: Fase Documento
+                        function: EQUALS_TO
+                        args:
+                          - Pagamento
+                    group:
+                      - columnGroup:
+                          source: Nome da Entidade Vinculada
+                        functions:
+                          - source: Nome da Entidade Vinculada
+                          - source: Valor Documento
+                            function: SUM
+                            column: Total
+
+          - span: "6"
+            components:
+              - settings:
+                  component: echarts
+                  filter:
+                    enabled: "true"
+                    listening: "true"
+                  external:
+                    width: 100%
+                    height: 300px
+                  echarts:
+                    grid:
+                      containLabel: "true"
+                    title:
+                      text: Gestão
+                    series:
+                      type: bar
+                  lookup:
+                    uuid: emenda
+                    sort:
+                      - column: Total
+                        sortOrder: DESCENDING
+                    filter:
+                      - column: Valor Documento
+                        function: NOT_EQUALS_TO
+                        args:
+                          - -1
+                      - column: Fase Documento
+                        function: EQUALS_TO
+                        args:
+                          - Pagamento
+                    group:
+                      - columnGroup:
+                          source: Nome da Gestão
+                        functions:
+                          - source: Nome da Gestão
+                          - source: Valor Documento
+                            function: SUM
+                            column: Total
+
+      - columns:
+          - components:
+              - settings:
+                  component: table
+                  external:
+                    width: 100%
+                  table:
+                    linkColumn: Código do Orgão Superior
+                    linkTemplate: https://www.portaltransparencia.gov.br/orgaos/${value}
+                  lookup:
+                    uuid: emenda
+                    sort:
+                      - column: Total (R$)
+                        sortOrder: DESCENDING
+                    filter:
+                      - column: Valor Documento
+                        function: NOT_EQUALS_TO
+                        args:
+                          - -1
+                      - column: Fase Documento
+                        function: EQUALS_TO
+                        args:
+                          - Pagamento
+                    group:
+                      - columnGroup:
+                          source: Nome do Orgão Superior
+                        functions:
+                          - source: Código do Orgão Superior
+                          - source: Nome do Orgão Superior
+                          - source: Valor Documento
+                            function: SUM
+                            column: Total (R$)
