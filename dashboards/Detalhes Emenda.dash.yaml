@@ -15,7 +15,7 @@ datasets:
           $.subfuncao,
           $.empenhado,
           $.pago,
-          $.liquido,
+          $.liquido,          
           $count($.documentos)
       ]
     columns:
@@ -187,7 +187,9 @@ pages:
           type: METRIC
           html:
             html: >-
-              <strong style="font-size: large; color: red" id="${this}">Essa emenda não possuí documentos!<br /><br /></strong>
+              <strong style="font-size: large; color: red" id="${this}">Os documentos para essa emenda não foram baixados!<br />
+                      <small style="font-size: small;">Entre em <a href="https://github.com/sjcdigital/data-analizes" target="_new">contato</a> para baixar</small><br /> <br />
+              </strong>
             javascript: >-
               if (${value} != 0) {
                   ${this}.style.display = "none";
