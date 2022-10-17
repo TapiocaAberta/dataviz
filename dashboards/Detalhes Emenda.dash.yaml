@@ -1,5 +1,12 @@
 properties:
   arquivo: /2022/115--0309-0309.json
+  cardCustoTotalCusto: >-
+    >-
+                                                
+                                                <div id="${this}" class="card-pf card-pf-aggregate-status" style="background-color: ${bgColor}; width: 90%; height: 80px">
+                                                  <h2 style="font-weight: 600; font-size: large" id="${this}Value">R$ ${value}</h2>
+                                                  <p style="font-weight: 400" id="${this}Title"><em id="${this}Icon" class=""></em> ${title}</p>
+                                                </div>
 datasets:
   - uuid: emenda
     url: https://raw.githubusercontent.com/sjcdigital/data-analizes/main/orcamento-secreto/data-json/${arquivo}
@@ -16,7 +23,7 @@ datasets:
           $.subfuncao,
           $.empenhado,
           $.pago,
-          $.liquido,          
+          $.liquido,
           $count($.documentos)
       ]
     columns:
@@ -43,7 +50,7 @@ datasets:
       - id: Valor Líquido da Emenda
         type: label
       - id: Total Documentos
-        type: label    
+        type: label
   - uuid: documentos_emenda
     url: https://raw.githubusercontent.com/sjcdigital/data-analizes/main/orcamento-secreto/data-json/${arquivo}
     cacheEnabled: true
@@ -171,10 +178,8 @@ navTree:
         - page: Dados da Emenda
         - page: Orgão Pagador
         - page: Favorecidos
+        - page: Lista de Documentos por Fase
 
-        - page: Documentos Fase Pago
-        - page: Documentos Fase Liquidação
-        - page: Documentos Fase Empenho
 pages:
   - name: Dados da Emenda
     components:
@@ -345,10 +350,10 @@ pages:
 
           html:
             html: >-
-                    <p style="font-size: medium"> Valor total de documentos na fase "Pago" é de <strong style="color:red">R$ ${value}</strong>
-                    </p>
-                    <br />
-                    <br />
+              <p style="font-size: medium"> Valor total de documentos na fase "Pago" é de <strong style="color:red">R$ ${value}</strong>
+              </p>
+              <br />
+              <br />
 
           lookup:
             uuid: documentos_emenda
@@ -417,10 +422,10 @@ pages:
 
           html:
             html: >-
-                    <p style="font-size: medium"> Valor total de documentos na fase "Pago" é de <strong style="color:red">R$ ${value}</strong>
-                    </p>
-                    <br />
-                    <br />
+              <p style="font-size: medium"> Valor total de documentos na fase "Pago" é de <strong style="color:red">R$ ${value}</strong>
+              </p>
+              <br />
+              <br />
 
           lookup:
             uuid: documentos_emenda
@@ -489,10 +494,10 @@ pages:
 
           html:
             html: >-
-                    <p style="font-size: medium"> Valor total de documentos na fase "Pago" é de <strong style="color:red">R$ ${value}</strong>
-                    </p>
-                    <br />
-                    <br />
+              <p style="font-size: medium"> Valor total de documentos na fase "Pago" é de <strong style="color:red">R$ ${value}</strong>
+              </p>
+              <br />
+              <br />
 
           lookup:
             uuid: documentos_emenda
@@ -735,3 +740,144 @@ pages:
                           - source: Valor Documento
                             function: SUM
                             column: Total (R$)
+  - name: Lista de Documentos por Fase
+    properties:
+      margin-top: 20px
+      margin-left: 10px
+    rows:
+      - columns:
+          - components:
+              - html: >-
+                  <p>Resumo</p><p>
+                properties:
+                  font-size: large
+      - columns:
+          - span: "4"
+            components:
+              - settings:
+                  type: METRIC
+                  general:
+                    title: Fase Empenho
+                    visible: "true"
+                  html:
+                    html: ${cardCustoTotalCusto}
+
+                  lookup:
+                    uuid: documentos_emenda
+                    filter:
+                      - column: Fase Documento
+                        function: EQUALS_TO
+                        args:
+                          - Empenho
+                    group:
+                      - functions:
+                          - source: Valor
+                            function: SUM
+          - span: "4"
+            components:
+              - settings:
+                  type: METRIC
+                  general:
+                    title: Fase Pago
+                    visible: "true"
+                  html:
+                    html: ${cardCustoTotalCusto}
+
+                  lookup:
+                    uuid: documentos_emenda
+                    filter:
+                      - column: Fase Documento
+                        function: EQUALS_TO
+                        args:
+                          - Pagamento
+                    group:
+                      - functions:
+                          - source: Valor
+                            function: SUM
+
+          - span: "4"
+            components:
+              - settings:
+                  type: METRIC
+                  general:
+                    title: Fase Liquidação
+                    visible: "true"
+                  html:
+                    html: ${cardCustoTotalCusto}
+
+                  lookup:
+                    uuid: documentos_emenda
+                    filter:
+                      - column: Fase Documento
+                        function: EQUALS_TO
+                        args:
+                          - Liquidação
+                    group:
+                      - functions:
+                          - source: Valor
+                            function: SUM
+
+      - columns:
+          - properties:
+              margin-top: 20px
+            components:
+              - html: >-
+                  <p>Liste de documentos</p><p>
+                properties:
+                  font-size: large
+              - html: <strong> Filtrar</strong>
+              - properties:
+                  width: 200px
+                  margin-bottom: 20px
+                settings:
+                  type: SELECTOR
+                  filter:
+                    enabled: "true"
+                    notification: "true"
+                  lookup:
+                    uuid: documentos_emenda
+                    group:
+                      - columnGroup:
+                          source: Fase Documento
+                        functions:
+                          - source: Fase Documento
+              - settings:
+                  component: table
+                  filter:
+                    enabled: "true"
+                    listening: "true"
+                  external:
+                    width: 100%
+                    height: 600px
+                  table:
+                    linkColumn: Código Documento
+                    linkTemplate: https://www.portaltransparencia.gov.br/despesas/documento/pagamento/${value}
+                  lookup:
+                    uuid: documentos_emenda
+                    group:
+                      - functions:
+                          - source: Código Documento
+                          - source: Data Documento
+                          - source: Fase Documento
+                          - source: Código Documento Resumido
+                          - source: Valor Documento (original)
+                          - source: Valor Documento
+                          - source: Tipo Espécie
+                          - source: Observação
+                          - source: Tipo
+                          - source: Descrição
+
+                          - source: Documento do Favorecido
+                          - source: Nome do Favorecido
+
+                          - source: Código do Orgão Superior
+                          - source: Nome do Orgão Superior
+
+                          - source: Código da Entidade Vinculada
+                          - source: Nome da Entidade Vinculada
+
+                          - source: Código da Unidade Gestora
+                          - source: Nome da Unidade Gestora
+
+                          - source: Código da Gestão
+                          - source: Nome da Gestão
