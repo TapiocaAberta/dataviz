@@ -3,6 +3,7 @@ properties:
 datasets:
   - uuid: emenda
     url: https://raw.githubusercontent.com/sjcdigital/data-analizes/main/orcamento-secreto/data-json/${arquivo}
+    cacheEnabled: "true"
     expression: >-
       $.[
           $.id,
@@ -42,9 +43,7 @@ datasets:
       - id: Valor Líquido da Emenda
         type: label
       - id: Total Documentos
-        type: label
-
-    cacheEnabled: true
+        type: label    
   - uuid: documentos_emenda
     url: https://raw.githubusercontent.com/sjcdigital/data-analizes/main/orcamento-secreto/data-json/${arquivo}
     cacheEnabled: true
