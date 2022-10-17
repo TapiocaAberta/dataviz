@@ -769,9 +769,13 @@ pages:
                         function: EQUALS_TO
                         args:
                           - Empenho
+                      - column: Valor Documento
+                        function: NOT_EQUALS_TO
+                        args:
+                          - -1
                     group:
-                      - functions:
-                          - source: Valor
+                      - functions:                          
+                          - source: Valor Documento
                             function: SUM
           - span: "4"
             components:
@@ -790,9 +794,13 @@ pages:
                         function: EQUALS_TO
                         args:
                           - Pagamento
+                      - column: Valor Documento
+                        function: NOT_EQUALS_TO
+                        args:
+                          - -1
                     group:
-                      - functions:
-                          - source: Valor
+                      - functions:                          
+                          - source: Valor Documento
                             function: SUM
 
           - span: "4"
@@ -812,10 +820,15 @@ pages:
                         function: EQUALS_TO
                         args:
                           - Liquidação
+                      - column: Valor Documento
+                        function: NOT_EQUALS_TO
+                        args:
+                          - -1
                     group:
-                      - functions:
-                          - source: Valor
+                      - functions:                          
+                          - source: Valor Documento
                             function: SUM
+                        
 
       - columns:
           - properties:
