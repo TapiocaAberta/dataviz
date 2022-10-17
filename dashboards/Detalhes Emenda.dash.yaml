@@ -263,7 +263,7 @@ pages:
             grid:
               containLabel: "true"
             title:
-              text: 10 Maiores Favorecidos por soma de valor na fase pagamento
+              text: 10 Maiores Favorecidos por soma de valor na fase pago
             series:
               type: bar
             xAxis:
@@ -342,6 +342,27 @@ pages:
         properties:
           font-size: x-large
       - settings:
+          type: METRIC
+
+          html:
+            html: >-
+                    <p style="font-size: medium"> Valor total de documentos na fase "Pago" é de <strong style="color:red">R$ ${value}</strong>
+                    </p>
+                    <br />
+                    <br />
+
+          lookup:
+            uuid: documentos_emenda
+            filter:
+              - column: Fase Documento
+                function: EQUALS_TO
+                args:
+                  - Empenho
+            group:
+              - functions:
+                  - source: Valor
+                    function: SUM
+      - settings:
           component: table
           external:
             width: 100%
@@ -393,6 +414,27 @@ pages:
         properties:
           font-size: x-large
       - settings:
+          type: METRIC
+
+          html:
+            html: >-
+                    <p style="font-size: medium"> Valor total de documentos na fase "Pago" é de <strong style="color:red">R$ ${value}</strong>
+                    </p>
+                    <br />
+                    <br />
+
+          lookup:
+            uuid: documentos_emenda
+            filter:
+              - column: Fase Documento
+                function: EQUALS_TO
+                args:
+                  - Liquidação
+            group:
+              - functions:
+                  - source: Valor
+                    function: SUM
+      - settings:
           component: table
           external:
             width: 100%
@@ -440,9 +482,30 @@ pages:
       margin-left: 10px
     components:
       - html: >-
-          <h2>Lista de documentos na Fase Pagamento</h2><hr/>
+          <h2>Lista de documentos na Fase Pago</h2><hr/>
         properties:
           font-size: x-large
+      - settings:
+          type: METRIC
+
+          html:
+            html: >-
+                    <p style="font-size: medium"> Valor total de documentos na fase "Pago" é de <strong style="color:red">R$ ${value}</strong>
+                    </p>
+                    <br />
+                    <br />
+
+          lookup:
+            uuid: documentos_emenda
+            filter:
+              - column: Fase Documento
+                function: EQUALS_TO
+                args:
+                  - Pagamento
+            group:
+              - functions:
+                  - source: Valor
+                    function: SUM
       - settings:
           component: table
           external:
