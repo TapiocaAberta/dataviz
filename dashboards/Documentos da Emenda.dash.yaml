@@ -60,10 +60,10 @@ pages:
               <br />
               Você está vendo documentos de <strong>${grupo}</strong>. É possível explorar mais:
                 <ul>
-                  <li><a href="/?import=${dashboard}&grupo=prefeituras">Prefeituras</a></li>
-                  <li><a href="/?import=${dashboard}&grupo=pessoas_fisicas">Pessoas físicas</a></li>
-                  <li><a href="/?import=${dashboard}&grupo=pessoas_juridicas">Pessoas Jurídicas</a></li>
-                  <li><a href="/?import=${dashboard}&grupo=outros">Outros</a></li>
+                  <li><a href="?import=${dashboard}&grupo=prefeituras">Prefeituras</a></li>
+                  <li><a href="?import=${dashboard}&grupo=pessoas_fisicas">Pessoas físicas</a></li>
+                  <li><a href="?import=${dashboard}&grupo=pessoas_juridicas">Pessoas Jurídicas</a></li>
+                  <li><a href="?import=${dashboard}&grupo=outros">Outros</a></li>
                 </ul>
               <br />
               Para problemas use nosso <a href="https://github.com/sjcdigital/data-analizes">github</a>.
