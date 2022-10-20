@@ -1,11 +1,10 @@
 properties:
   tipo: pagamento
   grupo: prefeituras
-
   dashboard: Documentos da Emenda.dash.yaml
 datasets:
   - uuid: documentos
-    url: http://localhost:3000/documentos_${tipo}_${grupo}.json
+    url: https://raw.githubusercontent.com/sjcdigital/data-analizes/main/orcamento-secreto/resumo_documentos/documentos_${tipo}_${grupo}.json
     cacheEnabled: true
     columns:
       - id: Data Documento
@@ -244,6 +243,6 @@ pages:
               name: Link Portal da Transparência
           external:
             width: 100%
-            height: 400px
+            height: 600px
           lookup:
             uuid: documentos
