@@ -1,6 +1,6 @@
 properties:
   tipo: pagamento
-  grupo: pessoas_juridicas
+  grupo: prefeituras
 
   dashboard: Documentos da Emenda.dash.yaml
 datasets:
