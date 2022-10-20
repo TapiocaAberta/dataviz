@@ -1,0 +1,249 @@
+properties:
+  tipo: pagamento
+  grupo: pessoas_juridicas
+
+  dashboard: Documentos da Emenda.dash.yaml
+datasets:
+  - uuid: documentos
+    url: http://localhost:3000/documentos_${tipo}_${grupo}.json
+    cacheEnabled: true
+    columns:
+      - id: Data Documento
+        type: LABEL
+      - id: Código Documento
+        type: LABEL
+      - id: Tipo Espécie
+        type: LABEL
+      - id: Observação
+        type: LABEL
+      - id: Tipo
+        type: LABEL
+      - id: Valor Documento (original)
+        type: label
+
+      - id: Valor Documento
+        type: Number
+      - id: Descrição
+        type: LABEL
+
+      - id: Documento do Favorecido
+        type: LABEL
+      - id: Nome do Favorecido
+        type: LABEL
+
+      - id: Nome da Entidade Vinculada
+        type: LABEL
+      - id: Nome da Gestão
+        type: LABEL
+      - id: Nome do Orgão Superior
+        type: LABEL
+
+      - id: Nome da Unidade Gestora
+        type: LABEL
+navTree:
+  root_items:
+    - type: GROUP
+      id: documentos_nav
+      children:
+        - page: Ranqueado por Quantidade de Documentos
+        - page: Ranqueado por Valor
+        - page: Lista Documentos
+pages:
+  - name: index
+    properties:
+      margin-left: 10px
+    components:
+      - html: >-
+          <strong style='font-size: x-large'>Documentos da emenda</strong>
+          <hr />
+          <p>
+              Um resumo dos documentos PAGOS do Orçamento Secreto. Cada dado é linkado ao Portal da Transparência (clique nos links)
+              <br />
+              Você está vendo documentos de <strong>${grupo}</strong>. É possível explorar mais:
+                <ul>
+                  <li><a href="/?import=${dashboard}&grupo=prefeituras">Prefeituras</a></li>
+                  <li><a href="/?import=${dashboard}&grupo=pessoas_fisicas">Pessoas físicas</a></li>
+                  <li><a href="/?import=${dashboard}&grupo=pessoas_juridicas">Pessoas Jurídicas</a></li>
+                  <li><a href="/?import=${dashboard}&grupo=outros">Outros</a></li>
+                </ul>
+              <br />
+              Para problemas use nosso <a href="https://github.com/sjcdigital/data-analizes">github</a>.
+              <br />
+          </p>
+      - type: TABS
+        properties:
+          navGroupId: documentos_nav
+          targetDivId: documentos_nav_div
+      - type: DIV
+        properties:
+          divId: documentos_nav_div
+  - name: Ranqueado por Valor
+    components:
+      - settings:
+          component: echarts
+          echarts:
+            option: >-
+              {
+                    "toolbox": {
+                        "feature": {
+                            "dataZoom": {}                                      
+                        }   
+                    }                                                
+                                      
+              }
+            grid:
+              containLabel: "true"
+            title:
+              text: Top 100 ${grupo} que receberam o Orçamento Secreto
+            series:
+              type: bar
+            xAxis:
+              axisLabel:
+                #interval: "0"
+                rotate: "12"
+          external:
+            width: 100%
+            height: 400px
+          lookup:
+            uuid: documentos
+            rowCount: 100
+            sort:
+              - sortOrder: DESCENDING
+                column: Valor Total Recebido
+            filter:
+              - column: Valor Documento
+                function: NOT_EQUALS_TO
+                args:
+                  - "-1"
+            group:
+              - columnGroup:
+                  source: Nome do Favorecido
+                functions:
+                  - source: Nome do Favorecido
+                  - source: Valor Documento
+                    function: SUM
+                    column: Valor Total Recebido
+      - html: >-
+          <p> Ranking completo </p> <hr />
+        properties:
+          font-size: large
+      - settings:
+          component: table
+          table:
+            linkColumn: Link Portal da Transparência
+            linkTemplate: https://portaltransparencia.gov.br/pessoa-juridica/${value}
+          columns:
+            - id: Documento do Favorecido
+              expression: >-
+                value.replace(/(\.|\/|-)/g, "");
+              name: Link Portal da Transparência
+          external:
+            width: 100%
+          lookup:
+            uuid: documentos
+
+            sort:
+              - sortOrder: DESCENDING
+                column: Soma dos valores recebidos
+            group:
+              - columnGroup:
+                  source: Nome do Favorecido
+                functions:
+                  - source: Nome do Favorecido
+                  - source: Documento do Favorecido
+                  - source: Valor Documento
+                    function: SUM
+                    column: Soma dos valores recebidos
+  - name: Ranqueado por Quantidade de Documentos
+    components:
+      - settings:
+          component: echarts
+          echarts:
+            option: >-
+              {
+                    "toolbox": {
+                        "feature": {
+                            "dataZoom": {}                                      
+                        }   
+                    }                                                
+                                      
+              }
+            grid:
+              containLabel: "true"
+            title:
+              text: Top 100 ${grupo} por quantidade de documentos na fase "Pagamento" do Orçamento Secreto
+            series:
+              type: bar
+            xAxis:
+              axisLabel:
+                #interval: "0"
+                rotate: "12"
+          external:
+            width: 100%
+            height: 400px
+          lookup:
+            uuid: documentos
+            rowCount: 100
+            sort:
+              - sortOrder: DESCENDING
+                column: Número de Documentos
+            group:
+              - columnGroup:
+                  source: Nome do Favorecido
+                functions:
+                  - source: Nome do Favorecido
+                  - source: Código Documento
+                    function: COUNT
+                    column: Número de Documentos
+      - html: >-
+          <p> Ranking completo </p> <hr />
+        properties:
+          font-size: large
+      - settings:
+          component: table
+          table:
+            linkColumn: Link Portal da Transparência
+            linkTemplate: https://portaltransparencia.gov.br/pessoa-juridica/${value}
+          columns:
+            - id: Documento do Favorecido
+              expression: >-
+                value.replace(/(\.|\/|-)/g, "");
+              name: Link Portal da Transparência
+          external:
+            width: 100%
+          lookup:
+            uuid: documentos
+            sort:
+              - sortOrder: DESCENDING
+                column: Número de Documentos
+            group:
+              - columnGroup:
+                  source: Nome do Favorecido
+                functions:
+                  - source: Nome do Favorecido
+                  - source: Documento do Favorecido
+                  - source: Código Documento
+                    function: COUNT
+                    column: Número de Documentos         
+
+  - name: Lista Documentos
+    components:
+      - html: >-
+          <p style='font-size: x-large'> Lista dos documentos </p><hr />
+        properties:
+          margin-top: 20px
+      - settings:
+          component: table
+          table:
+            linkColumn: Código Documento
+            linkTemplate: https://www.portaltransparencia.gov.br/despesas/documento/empenho/${value}
+          columns:
+            - id: Documento do Favorecido
+              expression: >-
+                value.replace(/(\.|\/|-)/g, "");
+              name: Link Portal da Transparência
+          external:
+            width: 100%
+            height: 400px
+          lookup:
+            uuid: documentos
