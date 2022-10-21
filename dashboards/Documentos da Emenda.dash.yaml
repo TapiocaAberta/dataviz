@@ -305,7 +305,7 @@ pages:
           component: table
           table:
             linkColumn: Código Documento
-            linkTemplate: https://www.portaltransparencia.gov.br/despesas/documento/empenho/${value}
+            linkTemplate: https://www.portaltransparencia.gov.br/despesas/documento/pagamento/${value}
           columns:
             - id: Documento do Favorecido
               expression: >-
