@@ -58,8 +58,9 @@ pages:
           <p>
               Um resumo dos documentos PAGOS do Orçamento Secreto. Cada dado é linkado ao Portal da Transparência (clique nos links)
               <br />
-              Você está vendo documentos de <strong>${grupo}</strong>. É possível explorar mais:
+              Você está vendo documentos de <strong style="font-size:large; color:red"">${grupo}</strong>. É possível explorar mais:
                 <ul>
+                  <li><a href="?import=${dashboard}&grupo=estados">Estados</a></li>
                   <li><a href="?import=${dashboard}&grupo=prefeituras">Prefeituras</a></li>
                   <li><a href="?import=${dashboard}&grupo=pessoas_fisicas">Pessoas físicas</a></li>
                   <li><a href="?import=${dashboard}&grupo=pessoas_juridicas">Pessoas Jurídicas</a></li>
