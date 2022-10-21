@@ -36,7 +36,6 @@ datasets:
         type: LABEL
       - id: Nome do Orgão Superior
         type: LABEL
-
       - id: Nome da Unidade Gestora
         type: LABEL
 navTree:
@@ -44,8 +43,9 @@ navTree:
     - type: GROUP
       id: documentos_nav
       children:
-        - page: Ranqueado por Quantidade de Documentos
+        - page: Ranqueado por Unidade Gestora
         - page: Ranqueado por Valor
+        - page: Ranqueado por Quantidade de Documentos
         - page: Lista Documentos
 pages:
   - name: index
@@ -93,7 +93,7 @@ pages:
             grid:
               containLabel: "true"
             title:
-              text: Top 100 ${grupo} que receberam o Orçamento Secreto
+              text: Top 100 favorecidos por valor na fase "Pagamento" do Orçamento Secreto
             series:
               type: bar
             xAxis:
@@ -140,7 +140,6 @@ pages:
             width: 100%
           lookup:
             uuid: documentos
-
             sort:
               - sortOrder: DESCENDING
                 column: Soma dos valores recebidos
@@ -170,7 +169,7 @@ pages:
             grid:
               containLabel: "true"
             title:
-              text: Top 100 ${grupo} por quantidade de documentos na fase "Pagamento" do Orçamento Secreto
+              text: Top 100 favorecidos por quantidade de documento na fase "Pagamento" do Orçamento Secreto
             series:
               type: bar
             xAxis:
@@ -223,7 +222,78 @@ pages:
                   - source: Documento do Favorecido
                   - source: Código Documento
                     function: COUNT
-                    column: Número de Documentos         
+                    column: Número de Documentos
+  - name: Ranqueado por Unidade Gestora
+    components:
+      - settings:
+          component: echarts
+          echarts:
+            option: >-
+              {
+                    "toolbox": {
+                        "feature": {
+                            "dataZoom": {}                                      
+                        }   
+                    }                                                
+                                      
+              }
+            grid:
+              containLabel: "true"
+            title:
+              text: Top 100 Unidade Gestora de documentos na fase "Pagamento" do Orçamento Secreto
+            series:
+              type: bar
+            xAxis:
+              axisLabel:
+                #interval: "0"
+                rotate: "12"
+          external:
+            width: 100%
+            height: 400px
+          lookup:
+            uuid: documentos
+            rowCount: 100
+            sort:
+              - sortOrder: DESCENDING
+                column: Valor total
+            group:
+              - columnGroup:
+                  source: Nome da Unidade Gestora
+                functions:
+                  - source: Nome da Unidade Gestora
+                  - source: Valor Documento
+                    function: SUM
+                    column: Valor total
+      - html: >-
+          <p> Ranking completo</p> <hr />
+        properties:
+          font-size: large
+      - settings:
+          component: table
+          table:
+            linkColumn: Link Portal da Transparência
+            linkTemplate: https://portaltransparencia.gov.br/pessoa-juridica/${value}
+          columns:
+            - id: Documento do Favorecido
+              expression: >-
+                value.replace(/(\.|\/|-)/g, "");
+              name: Link Portal da Transparência
+          external:
+            width: 100%
+          lookup:
+            uuid: documentos
+            rowCount: 100
+            sort:
+              - sortOrder: DESCENDING
+                column: Valor total
+            group:
+              - columnGroup:
+                  source: Nome da Unidade Gestora
+                functions:
+                  - source: Nome da Unidade Gestora
+                  - source: Valor Documento
+                    function: SUM
+                    column: Valor total
 
   - name: Lista Documentos
     components:
