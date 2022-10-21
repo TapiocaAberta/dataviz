@@ -43,10 +43,10 @@ navTree:
     - type: GROUP
       id: documentos_nav
       children:
+        - page: Lista Documentos
         - page: Ranqueado por Valor
         - page: Ranqueado por Quantidade de Documentos
         - page: Ranqueado por Unidade Gestora
-        - page: Lista Documentos
 pages:
   - name: index
     properties:
