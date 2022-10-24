@@ -1,11 +1,12 @@
 properties:
   tipo: pagamento
   grupo: prefeituras
-  dashboard: Documentos da Emenda.dash.yaml
+  dashboard: Documentos da Emenda.dash.yaml  
+
 datasets:
   - uuid: documentos
-    url: https://raw.githubusercontent.com/sjcdigital/data-analizes/main/orcamento-secreto/resumo_documentos/documentos_${tipo}_${grupo}.json
-    cacheEnabled: true
+    url: https://raw.githubusercontent.com/sjcdigital/data-analizes/main/orcamento-secreto/dashbuilder/documentos_${tipo}_${grupo}.json
+    cacheEnabled: true    
     columns:
       - id: Data Documento
         type: LABEL
