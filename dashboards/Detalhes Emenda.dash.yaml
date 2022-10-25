@@ -9,7 +9,7 @@ properties:
                                                 </div>
 datasets:
   - uuid: emenda
-    url: https://raw.githubusercontent.com/sjcdigital/data-analizes/main/orcamento-secreto/data-json/${arquivo}
+    url: https://raw.githubusercontent.com/sjcdigital/data-etl/main/orcamento-secreto/emendas_com_documentos/${arquivo}
     cacheEnabled: "true"
     expression: >-
       $.[
