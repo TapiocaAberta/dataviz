@@ -2,7 +2,8 @@ properties:
   id_municipio:  3550308
 datasets:
     - uuid: votos
-      url: http://localhost:3000/votos_PT_segundo_turno_ate_2022.csv
+      url: https://raw.githubusercontent.com/sjcdigital/data-etl/main/tse/votos_PT_segundo_turno_ate_2022.csv
+      cacheEnabled: true
       columns:
           - id: ano
             type: LABEL
@@ -13,7 +14,8 @@ datasets:
           - id: OUTROS
             type: LABEL
     - uuid: municipios
-      url: http://localhost:3000/municipios.csv
+      url: https://raw.githubusercontent.com/sjcdigital/data-etl/main/ibge/municipios.csv
+      cacheEnabled: "true"
       columns:
           - id: UF
             type: LABEL
