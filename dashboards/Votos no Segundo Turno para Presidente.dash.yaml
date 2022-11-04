@@ -1,0 +1,118 @@
+properties:
+  id_municipio:  3550308
+datasets:
+    - uuid: votos
+      url: http://localhost:3000/votos_PT_segundo_turno_ate_2022.csv
+      columns:
+          - id: ano
+            type: LABEL
+          - id: id_municipio
+            type: LABEL
+          - id: PT
+            type: LABEL
+          - id: OUTROS
+            type: LABEL
+    - uuid: municipios
+      url: http://localhost:3000/municipios.csv
+      columns:
+          - id: UF
+            type: LABEL
+          - id: id_municipio
+            type: LABEL
+          - id: Nome
+            type: LABEL
+pages:
+    - components:
+          - html: >-
+                <p style="font-size: x-large">
+                  Votação no Segundo Turno
+                </p>
+                <hr />
+                <p style="font-size: medium">
+                  Consulte aqui os dados de votação no PT no seu município no segundo turno desde 2002.
+                </p>
+          - settings:
+                component: table
+                filter:
+                    enabled: "true"
+                    notification: "true"
+                external:
+                    width: 350px
+                    height: 100px
+                table:
+                    hideHeader: "true"
+                lookup:
+                    uuid: municipios
+                    filter:
+                      - column: id_municipio
+                        function: EQUALS_TO
+                        args:
+                          - ${id_municipio}                    
+                    group:
+                        - functions:                          
+                              - source: UF
+                              - source: Nome
+          - settings:
+                component: echarts
+                external:
+                    width: 100%
+                    height: 400px
+                filter:
+                    enabled: "true"
+                    listening: "true"
+                echarts:
+                    option: >-
+                        {
+                            "color": [
+                                "red",
+                                "blue"
+                            ]
+                        }
+                    title:
+                        text: Votação PT x Outros no Segundo Turno
+                        left: center
+                    series:
+                        type: line
+                    legend:
+                        show: "true"
+                        top: bottom                    
+                lookup:
+                    uuid: votos
+                    filter:
+                      - column: id_municipio
+                        function: EQUALS_TO
+                        args:
+                          - ${id_municipio}
+                    group:
+                        - columnGroup:
+                              source: Ano
+                          functions:                              
+                              - source: Ano
+                              - source: PT
+                                function: MAX
+                              - source: OUTROS
+                                function: MAX
+          
+          - html: >-
+                <strong style="font-size: large"> Escolher outro município</strong> <hr />
+          - settings:
+                component: table
+                filter:
+                    enabled: "true"
+                    notification: "true"
+                external:
+                    width: 100%
+                    height: 500px
+                table:
+                    linkColumn: "id_municipio"
+                    linkTemplate: "?import=Votos no Segundo Turno para Presidente.dash.yaml&municipio=${value}"
+
+                lookup:
+                    uuid: municipios                    
+                    group:
+                        - columnGroup:
+                              source: id_municipio                          
+                          functions:
+                              - source: id_municipio
+                              - source: UF
+                              - source: Nome
