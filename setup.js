@@ -10,6 +10,7 @@ dashbuilder = {
                  "Ocorrências em SP - 2018 - 2021.dash.yaml",
                  "Orçamento Secreto.dash.yaml",
                  "Detalhes Emenda.dash.yaml",
-                 "Documentos da Emenda.dash.yaml"
+                 "Documentos da Emenda.dash.yaml",
+                 "Votos no Segundo Turno para Presidente.dash.yaml"
     ]
 }
