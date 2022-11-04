@@ -107,7 +107,7 @@ pages:
                     height: 500px
                 table:
                     linkColumn: "id_municipio"
-                    linkTemplate: "?import=Votos no Segundo Turno para Presidente.dash.yaml&municipio=${value}"
+                    linkTemplate: "https://sjcdigital.github.io/dataviz/?import=Votos%20no%20Segundo%20Turno%20para%20Presidente.dash.yaml&id_municipio=${value}"
 
                 lookup:
                     uuid: municipios                    
