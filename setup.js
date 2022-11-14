@@ -11,6 +11,7 @@ dashbuilder = {
                  "Orçamento Secreto.dash.yaml",
                  "Detalhes Emenda.dash.yaml",
                  "Documentos da Emenda.dash.yaml",
-                 "Votos no Segundo Turno para Presidente.dash.yaml"
+                 "Votos no Segundo Turno para Presidente.dash.yaml",
+                 "ENEM x CACs.dash.yaml"
     ]
 }
