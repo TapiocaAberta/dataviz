@@ -52,6 +52,9 @@ pages:
                 }
             general:
                 title: Inscritos no Enem vs Registro de CACs
+                allowEdit: true
+            export:
+                png: true
             chart:
                 legend:
                     show: true
