@@ -21,7 +21,7 @@ pages:
                             </p>
                             <hr />
           - columns:
-                - span: 4
+                - span: 3
                   components:
                       - settings:
                             type: METRIC
@@ -35,7 +35,21 @@ pages:
                                     - functions:
                                           - source: age
                                             function: AVERAGE
-                - span: 4
+                - span: 3
+                  components:
+                      - settings:
+                            type: METRIC
+                            general:
+                                title: "Idade mediana"
+                            lookup:
+                                uuid: idades
+                                sort:
+                                    - column: age
+                                group:
+                                    - functions:
+                                          - source: age
+                                            function: MEDIAN
+                - span: 3
                   components:
                       - settings:
                             type: METRIC
@@ -49,7 +63,7 @@ pages:
                                     - functions:
                                           - source: age
                                             function: MAX
-                - span: 4
+                - span: 3
                   components:
                       - settings:
                             type: METRIC
