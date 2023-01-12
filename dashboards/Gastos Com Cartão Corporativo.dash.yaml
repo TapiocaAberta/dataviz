@@ -9,7 +9,7 @@ global:
                 </div>
 datasets:
     - uuid: cartao
-      url: https://raw.githubusercontent.com/TapiocaAberta/data-etl/main/cartao_corporativo/cartao_corporativo_bolsonaro.csv
+      url: http://localhost:3000/cartao_corporativo_bolsonaro.csv
       cacheEnabled: true
       columns:
           - id: data
@@ -80,5 +80,6 @@ pages:
                 component: table
                 external:
                     width: 100%
+                    height: 500px
                 lookup:
                     uuid: cartao
