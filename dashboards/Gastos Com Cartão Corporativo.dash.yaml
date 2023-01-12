@@ -1,0 +1,84 @@
+global:
+    mode: dark
+    settings:
+        html:
+            html: >-
+                <div id="${this}" class="card-pf card-pf-aggregate-status" style="background-color: ${bgColor}; width: 90%; height: 80px;margin: 10px; border-radius: 10px">
+                <h2 style="font-weight: 600; font-size: large" id="${this}Value">R$ ${value} <span id="${this}Suffix" class=""></span></h2>
+                <p style="font-weight: 400" id="${this}Title"><em id="${this}Icon" class=""></em> ${title}</p>
+                </div>
+datasets:
+    - uuid: cartao
+      url: https://raw.githubusercontent.com/TapiocaAberta/data-etl/main/cartao_corporativo/cartao_corporativo_bolsonaro.csv
+      cacheEnabled: true
+      columns:
+          - id: data
+            type: label
+          - id: CPF Servidor
+            type: LABEL
+          - id: CNPJ Fornecedor
+            type: LABEL
+          - id: Fornecedor
+            type: LABEL
+          - id: Valor
+            type: NUMBER
+          - id: Categoria
+            type: LABEL
+pages:
+    - properties:
+        margin-left: 10px
+      components:        
+          - html: >-
+                  <h1>Gastos do cartão corporativo no Governo Bolsonaro</h1>
+                  <small>por <a href="https://github.com/tapiocaaberta">Tapioca Aberta</a> e feito com <a href="https://www.dashbuilder.org/">Dashbuilder</a></small>
+                  <br />
+                  <hr />
+                  <br />
+          - settings:
+                  type: METRIC
+                  general:
+                      title: Gastos Totais
+                  lookup:
+                      uuid: cartao
+
+                      group:
+                          - functions:
+                                - source: valor
+                                  function: sum
+          - html: >-
+                  <br /><br />
+          - settings:
+                type: BARCHART
+                general:
+                    title: 20 maiores Gastos por fornecedor
+                axis:
+                    x:
+                        labels_angle: 12
+                chart:
+                  resizable: true
+                  height: 400
+                lookup:
+                    uuid: cartao
+                    rowCount: 20                    
+                    sort:
+                        - column: total
+                          order: DESCENDING
+                    group: 
+                        - columnGroup:
+                            source: fornecedor
+                          functions:
+                              - source: fornecedor
+                              - source: valor
+                                function: SUM
+                                column: total
+          - html: >-
+                  <hr />
+                  <br />
+                  <h3> Todos gastos</h3>
+                  <br /><br /><br />
+          - settings:
+                component: table
+                external:
+                    width: 100%
+                lookup:
+                    uuid: cartao
