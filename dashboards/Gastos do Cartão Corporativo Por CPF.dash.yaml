@@ -1,0 +1,99 @@
+global:
+    mode: dark
+    settings:
+        chart:
+            resizable: true
+            grid:
+                x: false
+                y: true
+datasets:
+    - uuid: cartao
+      url: https://raw.githubusercontent.com/TapiocaAberta/data-etl/main/cartao_corporativo/uso_cartao_por_cpf.csv
+      cacheEnabled: true
+
+      columns:
+          - id: Data
+            type: LABEL
+          - id: CPF
+            type: LABEL
+          - id: VALOR
+            type: NUMBER
+          - id: Mandato
+            type: LABEL
+
+pages:
+    - properties:
+          margin-left: 10px
+      components:
+          - html: >-
+                <h1>Gastos do cartão corporativo por CPF</h1>
+                <small>Respondemos aqui: quantas pessoas usavam o cartão corporativo em cada mandato? Por <a href="https://github.com/tapiocaaberta">Tapioca Aberta</a> e feito com <a href="https://www.dashbuilder.org/">Dashbuilder</a></small>
+                <br />
+                <hr />
+                <br />
+          - settings:
+                type: BARCHART
+                general:
+                    title: Número de CPFs usados por mandato    
+                chart:
+                    resizable: true
+                columns:
+                    - id: CPF
+                      pattern: "#"
+                lookup:
+                    uuid: cartao
+                    group:
+                        - columnGroup:
+                              source: mandato
+                          functions:
+                              - source: Mandato
+                              - source: CPF
+                                function: distinct
+          - properties:
+              margin-top: 20px
+            settings:
+                type: BARCHART
+                general:
+                    title: Total de gastos por CPF
+                axis:
+                    x:
+                        labels_angle: 30
+                filter:
+                    enabled: true
+                    listening: true
+                lookup:
+                    uuid: cartao
+                    sort:
+                        - column: valor
+                          sortOrder: DESCENDING
+                    group:
+                        - columnGroup:
+                              source: CPF
+                          functions:
+                              - source: CPF
+                              - source: valor
+                                function: SUM
+          - html: >-
+                        <b>Filtrar por mandato</b>
+          - properties:
+                width: 160px
+            settings:
+                type: SELECTOR
+                filter:
+                    enabled: true
+                    notification: true
+                lookup:
+                    uuid: cartao
+                    group:
+                        - columnGroup:
+                              source: mandato
+                          functions:
+                              - source: mandato
+          - html: >-
+                        <hr /><h3> Todos dados</h3>
+          - settings:
+                component: table
+                external: 
+                    width: 100%
+                lookup:
+                    uuid: cartao
