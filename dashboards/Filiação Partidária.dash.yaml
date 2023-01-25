@@ -13,7 +13,7 @@ global:
               pattern: "#"
 datasets:
     - uuid: cancelamentos
-      url: http://localhost:3000/cancelamento_partidario.csv
+      url: https://raw.githubusercontent.com/TapiocaAberta/data-etl/main/filiacao/cancelamento_partidario.csv
       cacheEnabled: true
       columns:
           - id: partido
@@ -25,7 +25,7 @@ datasets:
           - id: Motivo
             type: LABEL
     - uuid: filiacao
-      url: http://localhost:3000/filiacao_partidaria.csv
+      url: https://raw.githubusercontent.com/TapiocaAberta/data-etl/main/filiacao/filiacao_partidaria.csv
       cacheEnabled: true
       columns:
           - id: partido
