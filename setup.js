@@ -14,6 +14,7 @@ dashbuilder = {
                  "Votos no Segundo Turno para Presidente.dash.yaml",
                  "ENEM x CACs.dash.yaml",
                  "Gastos Com Cartão Corporativo.dash.yaml",
-                 "Gastos do Cartão Corporativo Por CPF.dash.yaml"
+                 "Gastos do Cartão Corporativo Por CPF.dash.yaml",
+                 "Filiação Partidária.dash.yaml"
     ]
 }
