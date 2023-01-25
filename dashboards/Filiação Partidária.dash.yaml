@@ -1,0 +1,291 @@
+global:
+    mode: dark
+    settings:
+        chart:
+            resizable: true
+            grid:
+                x: false
+        axis:
+            x:
+                labels_angle: 30
+        columns:
+            - id: total
+              pattern: "#"
+datasets:
+    - uuid: cancelamentos
+      url: http://localhost:3000/cancelamento_partidario.csv
+      cacheEnabled: true
+      columns:
+          - id: partido
+            type: LABEL
+          - id: estado
+            type: LABEL
+          - id: Ano
+            type: LABEL
+          - id: Motivo
+            type: LABEL
+    - uuid: filiacao
+      url: http://localhost:3000/filiacao_partidaria.csv
+      cacheEnabled: true
+      columns:
+          - id: partido
+            type: LABEL
+          - id: estado
+            type: LABEL
+          - id: Ano
+            type: LABEL
+pages:
+    - rows:
+          - columns:
+                - components:
+                      - html: >-
+                            <h1> Filiação e cancelamentos no Brasil (2021-2022)</h1>
+                            <hr />
+
+          - columns:
+                - span: 3
+                  components:
+                      - html: >-
+                            <strong>Filtrar por Estado</strong>
+                      - properties:
+                            width: 160px
+                        settings:
+                            type: SELECTOR
+                            filter:
+                                enabled: true
+                                notification: true
+                            lookup:
+                                uuid: cancelamentos
+                                group:
+                                    - columnGroup:
+                                          source: estado
+                                      groupFunctions:
+                                          - source: estado
+                      - html: >-
+                            <strong>Filtrar por Partido</strong>
+                      - properties:
+                            width: 160px
+                        settings:
+                            type: SELECTOR
+                            filter:
+                                enabled: true
+                                notification: true
+                            lookup:
+                                uuid: cancelamentos
+                                group:
+                                    - columnGroup:
+                                          source: partido
+                                      groupFunctions:
+                                          - source: partido
+                - span: 6
+
+                  components:
+                      - settings:
+                            type: PIECHART
+                            general:
+                                title: Cancelamento por motivo
+                            chart:
+                                height: 300
+                                legend:
+                                    show: true
+                                    position: in
+                                margin:
+                                    top: 30
+                            filter:
+                                enabled: true
+                                listening: true
+                                notification: false
+                                selfapply: false
+                            lookup:
+                                uuid: cancelamentos
+                                group:
+                                    - columnGroup:
+                                          source: motivo
+                                      groupFunctions:
+                                          - source: Motivo
+                                          - source: Motivo
+                                            function: COUNT
+                                            column: total
+          - columns:
+                - components:
+                      - html: "<hr />"
+          - columns:
+                - span: 6
+                  components:
+                      - settings:
+                            type: BARCHART
+                            extraConfiguration: >-
+                                {
+                                    "color": ["blue"],
+                                    "yAxis": {
+                                        "max": 20000
+                                    },
+                                    "series": [{
+                                        "type": "bar",
+                                        "itemStyle": {
+                                            "normal": {
+                                                "label": {
+                                                    "show": true,
+                                                    "position": "top",
+                                                    "fontSize": 15,
+                                                    "fontWeight": "bold"
+                                                }
+                                            }
+                                        }
+                                    }]
+                                }
+                            general:
+                                title: Filiação por partido
+
+                            filter:
+                                enabled: true
+                                listening: true
+
+                            lookup:
+                                uuid: filiacao
+                                sort:
+                                    - column: total
+                                group:
+                                    - columnGroup:
+                                          source: partido
+                                      groupFunctions:
+                                          - source: partido
+                                          - source: partido
+                                            function: COUNT
+                                            column: total
+                - span: 6
+                  components:
+                      - settings:
+                            type: BARCHART
+                            extraConfiguration: >-
+                                {
+                                    "color": ["red"],
+                                    "yAxis": {
+                                        "max": 20000
+                                    },
+                                    "series": [{
+                                        "type": "bar",
+                                        "itemStyle": {
+                                            "normal": {
+                                                "label": {
+                                                    "show": true,
+                                                    "position": "top",
+                                                    "fontSize": 15,
+                                                    "fontWeight": "bold"
+                                                }
+                                            }
+                                        }
+                                    }]
+                                }
+                            general:
+                                title: Cancelamento por partido
+                            axis:
+                                y:
+                                    labels_show: false
+                            filter:
+                                enabled: true
+                                listening: true
+
+                            lookup:
+                                uuid: cancelamentos
+                                sort:
+                                    - column: total
+                                      order: DESCENDING
+                                group:
+                                    - columnGroup:
+                                          source: partido
+                                      groupFunctions:
+                                          - source: partido
+                                          - source: partido
+                                            function: COUNT
+                                            column: total
+          - columns:
+                - components:
+                      - html: "<hr />"
+          - columns:
+                - span: 6
+                  components:
+                      - settings:
+                            type: BARCHART
+                            extraConfiguration: >-
+                                {
+                                    "color": ["blue"],
+                                    "yAxis": {
+                                        "max": 20000
+                                    },
+                                    "series": [{
+                                        "type": "bar",
+                                        "itemStyle": {
+                                            "normal": {
+                                                "label": {
+                                                    "show": true,
+                                                    "position": "top",
+                                                    "fontSize": 15,
+                                                    "fontWeight": "bold"
+                                                }
+                                            }
+                                        }
+                                    }]
+                                }
+                            general:
+                                title: Filiação por estado
+                            filter:
+                                enabled: true
+                                listening: true
+                            lookup:
+                                uuid: filiacao
+                                sort:
+                                    - column: total
+                                group:
+                                    - columnGroup:
+                                          source: estado
+                                      groupFunctions:
+                                          - source: estado
+                                          - source: estado
+                                            function: COUNT
+                                            column: total
+                - span: 6
+                  components:
+                      - settings:
+                            type: BARCHART
+                            extraConfiguration: >-
+                                {
+                                    "color": ["red"],
+                                    "yAxis": {
+                                        "max": 20000
+                                    },
+                                    "series": [{
+                                        "type": "bar",
+                                        "itemStyle": {
+                                            "normal": {
+                                                "label": {
+                                                    "show": true,
+                                                    "position": "top",
+                                                    "fontSize": 15,
+                                                    "fontWeight": "bold"
+                                                }
+                                            }
+                                        }
+                                    }]
+                                }
+                            general:
+                                title: Cancelamento por estado
+                            axis:
+                                y:
+                                    labels_show: false
+                            filter:
+                                enabled: true
+                                listening: true
+                            lookup:
+                                uuid: cancelamentos
+                                sort:
+                                    - column: total
+                                      order: DESCENDING
+                                group:
+                                    - columnGroup:
+                                          source: estado
+                                      groupFunctions:
+                                          - source: estado
+                                          - source: estado
+                                            function: COUNT
+                                            column: total
