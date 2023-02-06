@@ -17,5 +17,5 @@ dashbuilder = {
 		samplesUrl: true
 	*/
 	allowExternal: true,
-	samplesUrl: "https://tapiocaaberta.github.io/dataviz/_dashboards"
+	samplesUrl: "/dataviz/_dashboards"
 };
