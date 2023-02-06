@@ -1,0 +1,29 @@
+{
+    "Geral": [
+      { "id": "Frota Veículos" },
+      { "id": "Preço dos Alimentos" },
+      { "id": "Queimadas no Brasil" },
+      { "id": "Mortes SJC" }
+    ],
+    "Segurança": [
+      { "id": "ENEM x CACs" },
+      { "id": "Idade Terroristas Brasilia" },
+      { "id": "Ocorrências em SP - 2018 - 2021" }
+    ],
+    "Orçamento Secreto": [
+      { "id": "Detalhes Emenda" },
+      { "id": "Documentos da Emenda" },
+      { "id": "Orçamento Secreto" }
+    ],
+    "Educação": [{ "id": "ENEM x CACs" }, { "id": "IDEB x FUNDEB" }],
+    "Política Partidária": [
+      { "id": "Votos no Segundo Turno para Presidente" },
+      { "id": "Filiação Partidária" }
+    ],
+  
+    "Cartão Corporativo": [
+      { "id": "Gastos Com Cartão Corporativo" },
+      { "id": "Gastos do Cartão Corporativo Por CPF" }
+    ]
+  }
+  

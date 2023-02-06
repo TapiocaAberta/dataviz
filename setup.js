@@ -1,20 +1,20 @@
 dashbuilder = {
-    hideNavBar: true,
-    path: 'dashboards',
-    dashboards: ["Mortes SJC.yml", 
-                 "preco_alimentos.dash.yml", 
-                 "IDEB x FUNDEB.dash.yaml", 
-                 "Orçamento União.dash.yml", 
-                 "Frota Veículos.dash.yaml", 
-                 "queimadas_brasil.dash.yaml",
-                 "Ocorrências em SP - 2018 - 2021.dash.yaml",
-                 "Orçamento Secreto.dash.yaml",
-                 "Detalhes Emenda.dash.yaml",
-                 "Documentos da Emenda.dash.yaml",
-                 "Votos no Segundo Turno para Presidente.dash.yaml",
-                 "ENEM x CACs.dash.yaml",
-                 "Gastos Com Cartão Corporativo.dash.yaml",
-                 "Gastos do Cartão Corporativo Por CPF.dash.yaml",
-                 "Filiação Partidária.dash.yaml"
-    ]
-}
+  /*
+		// possible modes are EDITOR and CLIENT - if dashboards is set then CLIENT mode is assumed
+		mode: "CLIENT",
+		// The list of client dashboards - if CLIENT mode is used and no list is provided, than the dashboard "dashboard.yml" will be attempted to load. If no dashboard is found, then client opens for upload. 
+		// The dashboard can also be an URL
+		dashboards: [ "dashboard1.yaml", "dashboard2.json"],
+    
+		// base path to look for dashboards. Default is /
+		path: "/path",
+		
+		// if true, then model from external urls will be allowed
+		allowExternal: true,
+		
+		// A base URL for the samples repository 
+		// if set then dashbuilder tries to retrieve samples.json from root dir and load samples from the provided URL
+		samplesUrl: true
+	*/
+	samplesUrl: "_dashboards/"
+};

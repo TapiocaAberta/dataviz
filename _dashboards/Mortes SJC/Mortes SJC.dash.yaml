@@ -1,0 +1,123 @@
+datasets:
+  - uuid: death summary
+    url: https://raw.githubusercontent.com/sjcdigital/urbam-deaths-data/master/summary.csv
+    cacheEnabled: true
+    refreshTime: "1hour"
+    columns:
+      - id: MONTH
+        type: LABEL
+      - id: FUNERAL
+        type: LABEL
+      - id: 2016
+        type: NUMBER
+      - id: 2017
+        type: NUMBER
+      - id: 2020
+        type: NUMBER
+      - id: 2021
+        type: NUMBER
+      - id: 2018
+        type: NUMBER
+      - id: 2022
+        type: NUMBER
+      - id: 2019
+        type: NUMBER
+pages:
+  - name: index
+    components:
+      - html: >-
+          <span style="font-size: large;"><b>Mortes em São José dos Campos&nbsp;</b></span><br><br>
+          <span style="font-size: small;">Esse relatório mostra mortes que aconteceram em São José dos Campos nos anos recentes. 
+          O objetivo é capturar possível aumento de mortes por causa da pandemia de Corona Vírus (mortes causadas por COVID-19).</span>
+          <span style="font-size: medium;"><br></span><span style="font-size: small;">É possível filtrar por mês ou por tipo de funeral. Para ordenar o gráfico selecione os meses na ordem no filtro por mês.</span><span style="font-size: medium;"><br></span>
+          <span style="font-size: small;">Dados foram lidos do <a href="https://www.urbam.com.br/velorios">site da Urbam</a> por uma ferramenta criada por <a href="http://github.com/pedro-hos">Pedro Henrique Oliveira Silva</a>&nbsp;. O código pode ser encontrado no repositório <a href="https://github.com/pedro-hos/urbam-deaths-data">urbam-deaths-data</a>.&nbsp;<br><br>
+          Dados sobre Corona Virus foram retirados do site <a href="https://brasil.io/covid19">Brasil IO.</a><br></span><br>
+          Criado por <a href="http://sjcdigital.com">SJC Digital.</a><br><br>
+      - settings:
+          type: barchart
+          chart:
+            resizable: true
+            height: 500
+          general:    
+            title: Mortes registradas pela Urbam
+            legend:
+              show: "true"
+              bottom: "0"
+          extraConfiguration: >-
+              {
+                  "toolbox": {
+                      "feature": {
+                          "dataZoom": {},
+                          "magicType": {
+                              "type": ["line", "bar", "stack"]
+                          },
+                          "saveAsImage": {}
+                      }   
+                  },
+                  "series": [
+                          { 
+                              "type": "bar",
+                              "markLine": {
+                                  "data": [
+                                      { "type": "max" }
+                                  ]
+                              } 
+                          
+                          },
+                          { 
+                              "type": "bar",
+                              "markLine": {
+                                  "data": [
+                                      { "type": "max" }
+                                  ]
+                              } 
+                          
+                          }, 
+                          { 
+                              "type": "bar",
+                              "markLine": {
+                                  "data": [
+                                      { "type": "max" }
+                                  ]
+                              } 
+                          },
+                          { 
+                              "type": "bar",
+                              "markLine": {
+                                  "data": [
+                                      { "type": "max" }
+                                  ]
+                              } 
+                              
+                          },
+                          { 
+                              "type": "bar",
+                              "markLine": {
+                                  "data": [
+                                      { "type": "max" }
+                                  ]
+                              }
+                      }
+                  ]
+                  
+              }
+          columns:
+            - id: 2019
+              pattern: "#"
+          dataSetLookup:
+            uuid: death summary
+            group:
+              - columnGroup:
+                  source: MONTH
+                groupFunctions:
+                  - source: MONTH
+                  - source: 2018
+                    function: SUM
+                  - source: 2019
+                    function: SUM
+                  - source: 2020
+                    function: SUM
+                  - source: 2021
+                    function: SUM
+                  - source: 2022
+                    function: SUM

@@ -1,0 +1,80 @@
+datasets:
+    - uuid: enem_cacs
+      content: >-
+                [
+                    ["2022","3396632","1006725"],
+                    ["2021","3109800","794958"],
+                    ["2020","5783483","556364"],
+                    ["2019","5095388","433246"],
+                    ["2018","5513712","350683"],
+                    ["2017","6731300","290711"]
+                ]
+      columns:
+        - id: ano
+          type: LABEL
+        - id: Inscritos no Enem
+          type: number
+        - id: Registro de CACs
+          type: number
+pages:
+    - components:
+        - settings:
+            type: LINECHART
+            extraConfiguration: >-
+            
+                {
+                    "series": [
+                        {
+                         
+                          "type": "line"
+                    
+                        },
+                        {
+                          "type": "line",
+                          "yAxisIndex": 1,
+                           "encode": {
+                                "x": "Ano",
+                                "y": "Registro de CACs"
+                           }
+                    
+                        }
+                      ],
+                    "yAxis": [
+                            {
+                              "type": "value"
+                              
+                            },
+                            {
+                              "type": "value"
+                              
+                            }
+                    ]
+                }
+            general:
+                title: Inscritos no Enem vs Registro de CACs
+                allowEdit: true
+            export:
+                png: true
+            chart:
+                legend:
+                    show: true
+                height: 600
+                resizable: true
+                grid:
+                    y: false
+            lookup:
+                uuid: enem_cacs
+                        
+                sort:
+                    - sortOrder: ASSCENDING
+                      column: ano
+        - html: >-
+            <p style="font-size: medium; margin: 5px; margin-top: 10px">
+                Dados foram obtidos de portais de notícias. Em caso de bug nos avise no <a href="https://github.com/sjcdigital/dataviz">github</a>. Tabela dos dados:
+            </p>
+        - settings:
+            component: table
+            external:
+                width: 100%
+            lookup:
+                uuid: enem_cacs

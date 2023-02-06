@@ -1,0 +1,353 @@
+properties:
+  estado: SP
+  cardTemplate: >-
+    >-
+                                                
+                                                <div id="${this}" class="card-pf card-pf-aggregate-status" style="background-color: ${bgColor}; width: 90%; height: 80px">
+                                                  <h2 style="font-weight: 600; font-size: large" id="${this}Value">${value}</h2>
+                                                  <p style="font-weight: 400" id="${this}Title"><strong>${title}</strong></p>
+                                                </div>
+  globalChartOption: >-
+    >-
+                          {      
+                            "color": [
+                              "#5ec962"
+                            ]
+                          }
+datasets:
+  - uuid: ideb_fundeb
+    cacheEnabled: true
+    refreshTime: 1000minute
+    url: https://raw.githubusercontent.com/sjcdigital/repasse-analises/main/data/ideb_repasse/fundeb/estado/${estado}.csv
+    columns:
+      - id: ID
+        type: label
+      - id: ANO_IDEB
+        type: label
+      - id: ANO_IDH
+        type: label
+      - id: ANO_MATRICULA
+        type: label
+      - id: ANO_REPASSE
+        type: label
+      - id: CODIGO_MUNICIPIO
+        type: label
+      - id: FAIXA_POP
+        type: label
+      - id: IDEB_NOTA
+        type: label
+      - id: IDHM
+        type: number
+      - id: IDH_EDUCACAO
+        type: number
+      - id: IDH_LONGEVIDADE
+        type: number
+      - id: IDH_RENDA
+        type: number
+      - id: MATRICULA
+        type: label
+      - id: MUNICIPIO
+        type: label
+      - id: PERIODO
+        type: label
+      - id: POPULACAO
+        type: label
+      - id: REDE
+        type: label
+      - id: REGIAO
+        type: label
+      - id: REPASSE_MATRICULA
+        type: label
+      - id: UF
+        type: label
+      - id: VALOR_REPASSADO_EDUCACAO
+        type: NUMBER
+pages:
+  - properties:
+      margin: 10px
+    rows:
+      - properties:
+          margin-bottom: 20px
+        columns:
+          - components:
+              - properties:
+                  margin-bottom: 40px
+                html: >-
+                  <h1><strong>IDEB x FUNDEB</strong></h1>
+                  <hr />
+                  <p style="font-size: medium">
+                    Esse dashboard mostra os dados de métricas de um munícipio juntamente com os dados de repasse para do governo federal usando o FUNDEB.
+                    <br />
+                    O estado selecionado é <strong>${estado}</strong>. Para selecionar outro estado clique abaixo: <br />
+                    <div style="max-height: 100px; width: 100%; overflow-y: scroll; background-color: #EEEEEE; solid; width: 250px">
+
+                    <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=AC">Acre - AC</a> <br />
+                    <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=AL">Alagoas - AL</a> <br />
+                    <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=AP">Amapá - AP</a> <br />
+                    <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=AM">Amazonas - AM</a> <br />
+                    <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=BA">Bahia - BA</a> <br />
+                    <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=CE">Ceará - CE</a> <br />
+                    <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=DF">Distrito Federal - DF</a> <br />
+                    <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=ES">Espírito Santo - ES</a> <br />
+                    <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=GO">Goiás - GO</a> <br />
+                    <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=MA">Maranhão - MA</a> <br />
+                    <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=MT">Mato Grosso - MT</a> <br />
+                    <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=MS">Mato Grosso do Sul - MS</a> <br />
+                    <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=MG">Minas Gerais - MG</a> <br />
+                    <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=PA">Pará - PA</a> <br />
+                    <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=PB">Paraíba - PB</a> <br />
+                    <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=PR">Paraná - PR</a> <br />
+                    <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=PE">Pernambuco - PE</a> <br />
+                    <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=PI">Piauí - PI</a> <br />
+                    <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=RJ">Rio de Janeiro - RJ</a> <br />
+                    <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=RN">Rio Grande do Norte - RN</a> <br />
+                    <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=RS">Rio Grande do Sul - RS</a> <br />
+                    <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=RO">Rondônia - RO</a> <br />
+                    <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=RR">Roraima - RR</a> <br />
+                    <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=SC">Santa Catarina - SC</a> <br />
+                    <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=SP">São Paulo - SP</a> <br />
+                    <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=SE">Sergipe - SE</a> <br />
+                    <a style="margin-right: 10px" href="?import=IDEB x FUNDEB.dash.yaml&estado=TO">Tocantins - TO.</a>
+                    </div>
+                  </p>
+              - html: <strong> Selecione Município do estado ${estado}</strong>
+              - properties:
+                  width: 230px
+                settings:
+                  type: SELECTOR
+                  filter:
+                    enabled: "true"
+                    notification: "true"
+                  dataSetLookup:
+                    uuid: ideb_fundeb
+                    group:
+                      - columnGroup:
+                          source: MUNICIPIO
+                        functions:
+                          - source: MUNICIPIO
+      - columns:
+          - components:
+              - html: <r />IDH (2010)
+                properties:
+                  font-size: x-large
+      - columns:
+          - span: "3"
+            components:
+              - settings:
+                  type: METRIC
+                  html:
+                    html: ${cardTemplate}
+                  filter:
+                    enabled: "true"
+                    listening: "true"
+                  general:
+                    title: IDHM
+                    visible: "true"
+                  chart:
+                    width: "150"
+                    height: "90"
+
+                  dataSetLookup:
+                    uuid: ideb_fundeb
+                    group:
+                      - groupFunctions:
+                          - source: IDHM
+                            function: AVERAGE
+          - span: "3"
+            components:
+              - settings:
+                  type: METRIC
+                  html:
+                    html: ${cardTemplate}
+                  filter:
+                    enabled: "true"
+                    listening: "true"
+                  general:
+                    title: IDH Educação
+                    visible: "true"
+                  chart:
+                    width: "150"
+                    height: "90"
+                  dataSetLookup:
+                    uuid: ideb_fundeb
+                    group:
+                      - groupFunctions:
+                          - source: IDH_EDUCACAO
+                            function: AVERAGE
+          - span: "3"
+            components:
+              - settings:
+                  type: METRIC
+                  html:
+                    html: ${cardTemplate}
+                  filter:
+                    enabled: "true"
+                    listening: "true"
+                  general:
+                    title: IDH Longevidade
+                    visible: "true"
+                  chart:
+                    width: "150"
+                    height: "90"
+                  dataSetLookup:
+                    uuid: ideb_fundeb
+                    group:
+                      - groupFunctions:
+                          - source: IDH_LONGEVIDADE
+                            function: AVERAGE
+          - span: "3"
+            components:
+              - settings:
+                  type: METRIC
+                  html:
+                    html: ${cardTemplate}
+                  filter:
+                    enabled: "true"
+                    listening: "true"
+                  general:
+                    title: IDH Renda
+                    visible: "true"
+                  chart:
+                    width: "150"
+                    height: "90"
+                  columns:
+                    - id: Total
+                      pattern: "#"
+                  dataSetLookup:
+                    uuid: ideb_fundeb
+                    group:
+                      - groupFunctions:
+                          - source: IDH_RENDA
+                            function: AVERAGE
+      - columns:
+          - components:
+              - html: IDEB
+                properties:
+                  font-size: x-large
+      - columns:
+          - span: "4"
+            components:
+              - settings:
+                  component: echarts
+                  echarts:
+                    option: ${globalChartOption}
+                    series:
+                      type: line
+                    title:
+                      show: true
+                      text: Fundamental Anos Iniciais
+                      left: center
+                  filter:
+                    enabled: "true"
+                    listening: "true"
+                  dataSetLookup:
+                    uuid: ideb_fundeb
+                    sort:
+                      - column: ANO_IDEB
+                        sortOrder: ASCENDING
+                    filter:
+                      - column: PERIODO
+                        function: EQUALS_TO
+                        args:
+                          - FUNDAMENTAL_ANOS_INICIAIS
+                    group:
+                      - columnGroup:
+                          source: ANO_IDEB
+                        functions:
+                          - source: ANO_IDEB
+                          - source: IDEB_NOTA
+          - span: "4"
+            components:
+              - settings:
+                  component: echarts
+                  echarts:
+                    option: ${globalChartOption}
+                    series:
+                      type: line
+                    title:
+                      show: true
+                      text: Fundamental Anos Finais
+                      left: center
+                  filter:
+                    enabled: "true"
+                    listening: "true"
+                  dataSetLookup:
+                    uuid: ideb_fundeb
+                    sort:
+                      - column: ANO_IDEB
+                        sortOrder: ASCENDING
+                    filter:
+                      - column: PERIODO
+                        function: EQUALS_TO
+                        args:
+                          - FUNDAMENTAL_ANOS_FINAIS
+                    group:
+                      - columnGroup:
+                          source: ANO_IDEB
+                        functions:
+                          - source: ANO_IDEB
+                          - source: IDEB_NOTA
+          - span: "4"
+            components:
+              - settings:
+                  component: echarts
+                  echarts:
+                    option: ${globalChartOption}
+                    series:
+                      type: line
+                    title:
+                      show: true
+                      text: Ensino Médio
+                      left: center
+                  filter:
+                    enabled: "true"
+                    listening: "true"
+                  dataSetLookup:
+                    uuid: ideb_fundeb
+                    sort:
+                      - column: ANO_IDEB
+                        sortOrder: ASCENDING
+                    filter:
+                      - column: PERIODO
+                        function: EQUALS_TO
+                        args:
+                          - ENSINO_MEDIO
+                    group:
+                      - columnGroup:
+                          source: ANO_IDEB
+                        functions:
+                          - source: ANO_IDEB
+                          - source: IDEB_NOTA
+
+      - columns:
+          - components:
+              - html: Repasses Federais
+                properties:
+                  font-size: x-large
+              - settings:
+                  component: echarts
+                  external:
+                    width: 100%
+                  echarts:
+                    option: ${globalChartOption}
+                    series:
+                      type: line
+                    title:
+                      show: true
+                      text: Repasse para Educação
+                      left: center
+                  filter:
+                    enabled: "true"
+                    listening: "true"
+                  dataSetLookup:
+                    uuid: ideb_fundeb
+                    sort:
+                      - column: ANO_REPASSE
+                        sortOrder: ASCENDING
+                    group:
+                      - columnGroup:
+                          source: ANO_REPASSE
+                        functions:
+                          - source: ANO_REPASSE
+                          - source: VALOR_REPASSADO_EDUCACAO
+                            function: MAX

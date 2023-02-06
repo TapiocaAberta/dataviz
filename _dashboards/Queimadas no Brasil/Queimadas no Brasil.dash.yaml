@@ -1,0 +1,176 @@
+properties:
+  dimensao: bioma
+datasets:
+  - uuid: queimadas
+    url: https://raw.githubusercontent.com/sjcdigital/queimadas-data/master/csv-data/${dimensao}_sumarized.csv
+    columns:
+      - id: Ano
+        type: label
+      - id: JANEIRO
+        type: label
+      - id: FEVEREIRO
+        type: label
+      - id: MARÇO
+        type: label
+      - id: ABRIL
+        type: label
+      - id: MAIO
+        type: label
+      - id: JUNHO
+        type: label
+      - id: JULHO
+        type: label
+      - id: AGOSTO
+        type: label
+      - id: SETEMBRO
+        type: label
+      - id: OUTUBRO
+        type: label
+      - id: NOVEMBRO
+        type: label
+      - id: DEZEMBRO
+        type: label
+      - id: ${dimensao}
+        type: label
+      - id: LAT
+        type: NUMBER
+      - id: LONG
+        type: NUMBER
+  - uuid: queimadas_db
+    url: https://raw.githubusercontent.com/sjcdigital/queimadas-data/master/dashboard_data/${dimensao}_sumarized_db.json
+    columns:
+      - id: Ano
+        type: label
+      - id: Mês
+        type: label
+      - id: Valor
+        type: Number
+      - id: ${dimensao}
+        type: Label
+pages:
+  - properties:
+      margin-left: 5px
+    components:
+      - html: >-
+          <h1>Queimadas no Brasil</h1>          
+          <hr />
+          <p>
+            Esse é um relatório das queimadas por <strong>${dimensao}</strong>. Você pode ver por outra dimensão usando os links abaixo:
+            <ul>
+              <li><a href="?dimensao=regiao&import=queimadas_brasil.dash.yaml">Região</a></li>
+              <li><a href="?dimensao=estado&import=queimadas_brasil.dash.yaml">Estado</a></li>
+              <li><a href="?dimensao=bioma&import=queimadas_brasil.dash.yaml">Bioma</a></li>
+            </ul>
+
+            
+          </p>
+
+
+      - properties:
+          margin-top: 20px
+        html: <strong> Filtrar por ${dimensao}</strong>
+      - properties:
+          width: 200px
+        settings:
+          type: SELECTOR
+          filter:
+            enabled: "true"
+            notification: "true"
+          echarts:
+            series:
+              type: line
+            legend:
+              show: true
+              top: bottom
+          external:
+            width: 100%
+          lookup:
+            uuid: queimadas
+            group:
+              - columnGroup:
+                  source: ${dimensao}
+                functions:
+                  - source: ${dimensao}
+      - settings:
+          component: echarts
+          echarts:
+            series:
+              type: line
+            legend:
+              show: true
+              top: bottom
+            title:
+              text: Por ano
+              left: center
+          external:
+            width: 100%
+          filter:
+            enabled: "true"
+            listening: "true"
+          lookup:
+            uuid: queimadas_db
+            group:
+              - columnGroup:
+                  source: Ano
+                functions:
+                  - source: Ano
+                  - source: Valor
+                    function: SUM
+                    column: Total de queimadas no ano
+      - properties:
+          margin-top: 30px
+        settings:
+          component: echarts
+          filter:
+            enabled: "true"
+            listening: "true"
+          echarts:
+            series:
+              type: line
+            legend:
+              show: true
+              top: bottom
+            title:
+              text: Mês a mês
+              left: center
+          external:
+            width: 100%
+          lookup:
+            uuid: queimadas
+            group:
+              - columnGroup:
+                  source: Ano
+                functions:
+                  - source: Ano
+                  - source: JANEIRO
+                    function: SUM
+                  - source: FEVEREIRO
+                    function: SUM
+                  - source: MARÇO
+                    function: SUM
+                  - source: ABRIL
+                    function: SUM
+                  - source: MAIO
+                    function: SUM
+                  - source: JUNHO
+                    function: SUM
+                  - source: JULHO
+                    function: SUM
+                  - source: AGOSTO
+                    function: SUM
+                  - source: SETEMBRO
+                    function: SUM
+                  - source: OUTUBRO
+                    function: SUM
+                  - source: NOVEMBRO
+                    function: SUM
+                  - source: DEZEMBRO
+                    function: SUM
+      - properties:
+          margin-top: 20px
+        html: >-
+          <small>
+          Dados do <a href="https://queimadas.dgi.inpe.br/queimadas/portal-static/estatisticas_estados/">INPE</a>. 
+          Criado por <a href="https://github.com/sjcdigital">SJC Digital</a>. 
+          <a href="https://github.com/sjcdigital/queimadas-data">Código aberto</a>.
+          </small>
