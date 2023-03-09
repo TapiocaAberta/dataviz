@@ -14,7 +14,7 @@ datasets:
 pages:
     - components:
           - html: <a href="https://twitter.com/garbg_collector/status/1633583886935511042"> Fonte dos dados</a>
-          - html: <h3> 20 Deputados com Maiores Ausências Não justificadas</h3> <hr />
+          - html: <h3> 30 Deputados com Maiores Ausências Não justificadas</h3> <hr />
           - settings:
                 type: barchart
                 external:
@@ -30,7 +30,7 @@ pages:
                       pattern: "#"
                 lookup:
                     uuid: presenca
-                    rowCount: 20
+                    rowCount: 30
                     filter:
                         - column: Ausências Não Justificadas
                           function: GREATER_THAN
