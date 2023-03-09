@@ -18,7 +18,9 @@
     "Educação": [{ "id": "ENEM x CACs" }, { "id": "IDEB x FUNDEB" }],
     "Política Partidária": [
       { "id": "Votos no Segundo Turno para Presidente" },
-      { "id": "Filiação Partidária" }
+      { "id": "Filiação Partidária" },
+      { "id": "Presença dos Deputados" }
+        
     ],
   
     "Cartão Corporativo": [
