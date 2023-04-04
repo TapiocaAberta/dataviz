@@ -16,10 +16,14 @@
 
 package org.dashbuilder.client.widgets.view;
 
+import java.util.function.Supplier;
+
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.user.client.Window;
+import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLAnchorElement;
 import elemental2.dom.HTMLDivElement;
 import elemental2.dom.HTMLElement;
@@ -48,6 +52,9 @@ public class SampleCardView implements SampleCard.View {
     @DataField
     HTMLAnchorElement sampleUrlLink;
 
+    @Inject
+    @DataField
+    HTMLAnchorElement sampleEditLink;
 
     private Runnable sampleClickCallback;
 
@@ -78,6 +85,18 @@ public class SampleCardView implements SampleCard.View {
     @EventHandler("sampleImportLink")
     void onSampleImportLinkClicked(ClickEvent e) {
         sampleClickCallback.run();
+    }
+
+    @Override
+    public void enableEdit(Supplier<String> getSamplePath) {
+        sampleEditLink.style.visibility = "visible";
+        sampleEditLink.onclick = e -> {
+            var proceed = Window.confirm("This will create a new file in your project, would you like to proceed to VSCode?");
+            if (proceed) {
+                DomGlobal.window.open("vscode://file/" + getSamplePath.get());
+            }
+            return true;
+        };
     }
 
 }

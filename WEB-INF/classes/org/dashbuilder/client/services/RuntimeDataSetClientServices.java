@@ -54,7 +54,6 @@ import org.dashbuilder.dataset.json.DataSetJSONMarshaller;
 import org.dashbuilder.dataset.json.DataSetLookupJSONMarshaller;
 import org.jboss.errai.common.client.api.RemoteCallback;
 import org.jboss.resteasy.util.HttpResponseCodes;
-import org.uberfire.backend.vfs.Path;
 
 import static elemental2.dom.DomGlobal.fetch;
 
@@ -140,7 +139,7 @@ public class RuntimeDataSetClientServices implements DataSetClientServices {
     @Override
     public void lookupDataSet(DataSetDef def, DataSetLookup lookup, DataSetReadyCallback listener) throws Exception {
         var clientDataSet = clientDataSetManager.lookupDataSet(lookup);
-        if (clientDataSet != null) {
+        if (!isAccumulate(lookup.getDataSetUUID()) && clientDataSet != null) {
             listener.callback(clientDataSet);
             return;
         }
@@ -151,7 +150,7 @@ public class RuntimeDataSetClientServices implements DataSetClientServices {
 
                     @Override
                     public boolean onError(ClientRuntimeError error) {
-                        if (loader.isEditor()) {
+                        if (loader.isEditor() || loader.isClient()) {
                             listener.onError(error);
                         } else {
                             DomGlobal.console.debug("Error retrieving dataset from client, trying from backend");
@@ -170,6 +169,10 @@ public class RuntimeDataSetClientServices implements DataSetClientServices {
                         listener.callback(dataSet);
                     }
                 });
+    }
+
+    private boolean isAccumulate(String uuid) {
+        return externalDataSetClientProvider.get(uuid).map(def -> def.isAccumulate()).orElse(false);
     }
 
     @Override
@@ -195,16 +198,6 @@ public class RuntimeDataSetClientServices implements DataSetClientServices {
     @Override
     public void getPublicDataSetDefs(RemoteCallback<List<DataSetDef>> callback) {
         // ignored in runtime
-    }
-
-    @Override
-    public String getDownloadFileUrl(Path path) {
-        throw new IllegalArgumentException("Download URL not supported");
-    }
-
-    @Override
-    public String getUploadFileUrl() {
-        throw new IllegalArgumentException("Uploaded not supported");
     }
 
     private void backendLookup(DataSetDef def, DataSetLookup lookup, DataSetReadyCallback listener) {

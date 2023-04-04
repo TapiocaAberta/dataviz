@@ -16,5 +16,6 @@ dashbuilder = {
 		// if set then dashbuilder tries to retrieve samples.json from root dir and load samples from the provided URL
 		samplesUrl: true
 	*/
+	samplesDefaultHome: true,
 	samplesUrl: "_dashboards/"
 };

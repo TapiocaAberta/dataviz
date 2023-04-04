@@ -36,13 +36,16 @@ public interface RuntimeClientSetup {
     String getPath();
 
     @JsProperty
-    boolean getHideNavBar();
-
-    @JsProperty
     String[] getDashboards();
 
     @JsProperty
     String getSamplesUrl();
+
+    @JsProperty
+    String getSamplesEditService();
+
+    @JsProperty
+    boolean getSamplesDefaultHome();
 
     class Builder {
 
