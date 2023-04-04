@@ -17,5 +17,7 @@ dashbuilder = {
 		samplesUrl: true
 	*/
 	samplesDefaultHome: true,
-	samplesUrl: "_dashboards/"
+	samplesUrl: "_dashboards/",
+	allowExternal: true,
+	samplesUrl: "https://raw.githubusercontent.com/TapiocaAberta/dataviz/main/_dashboards/"
 };

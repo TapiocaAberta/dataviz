@@ -1,0 +1,61 @@
+datasets:
+    - uuid: presenca
+      url: https://political-api.vercel.app/presenca
+      expression: $.[$.[deputado, presencas, ausencias_justificadas, ausencias_nao_justificadas]]
+      columns:
+          - id: Deputado
+            type: LABEL
+          - id: Presença
+            type: number
+          - id: Ausências Justificadas
+            type: number
+          - id: Ausências Não Justificadas
+            type: number
+pages:
+    - components:
+          - html: <a href="https://twitter.com/garbg_collector/status/1633583886935511042"> Fonte dos dados</a>
+          - html: <h3> 30 Deputados com Maiores Ausências Não justificadas</h3> <hr />
+          - settings:
+                type: barchart
+                external:
+                    width: 100%
+                chart:
+                    resizable: true
+                    height: 500
+                axis:
+                  x:
+                      labels_angle: 12
+                columns:
+                    - id: Ausências Não Justificadas
+                      pattern: "#"
+                lookup:
+                    uuid: presenca
+                    rowCount: 30
+                    filter:
+                        - column: Ausências Não Justificadas
+                          function: GREATER_THAN
+                          args:
+                              - 0
+                    sort:
+                        - column: Ausências Não Justificadas
+                          order: DESCENDING
+                    group:
+                        - columnGroup:
+                              source: Deputado
+                          functions:
+                              - source: Deputado
+                              - source: Ausências Não Justificadas
+                                function: SUM
+          - html: <h3> Presença de todos deputados </h3> <hr />
+          - settings:
+                component: table
+                external:
+                    width: 100%
+                chart:
+                    resizable: true
+                    height: 500
+                columns:
+                    - id: Presença
+                      pattern: "#"
+                lookup:
+                    uuid: presenca
