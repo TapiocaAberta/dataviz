@@ -1,0 +1,486 @@
+properties:
+    variacao_total: 20
+global:
+    settings:
+        filter:
+            listening: true
+        chart:
+            resizable: true
+            height: 250
+            grid:
+                x: false
+            margin:
+                left: 100
+                right: 50
+                bottom: 100
+        html:
+            html: >-
+                <div id="${this}" class="card-pf card-pf-aggregate-status" style="background-color: ${bgColor}; width: 90%; height: 80px;margin: 10px; border-radius: 10px">
+                <h2 style="font-weight: 600; font-size: large" id="${this}Value">${value} <span id="${this}Suffix" class=""></span></h2>
+                <p style="font-weight: 400" id="${this}Title"><em id="${this}Icon" class=""></em> ${title}</p>
+                </div>
+        axis:
+            x:
+                labels_angle: 30
+
+datasets:
+    - uuid: pop
+      url: https://raw.githubusercontent.com/TapiocaAberta/data-etl/main/ibge/variacao_pop_2010_2022.csv
+      cacheEnabled: true
+      columns:
+          - id: UF
+          - id: MUNICIPIO
+          - id: POP2010
+            type: NUMBER
+          - id: POP2022
+            type: NUMBER
+          - id: VARIACAO
+          - id: VARIACAO_PERCENT
+pages:
+    - name: index
+      rows:
+          - columns:
+                - properties:
+                      margin-left: 10px
+                      margin-bottom: 20px
+                  components:
+                      - markdown: >-
+                            # **População 2022 (IBGE)**
+                            <br /><br />
+
+                            ##### Dashboard com dados da população divulgados pelo IBGE em 2023. Somos o grupo de dados abertos [Tapioca Aberta](https://github.com/tapiocaaberta/), em caso de problemas ou dados imprecisos nos avise no [Github](https://github.com/tapiocaaberta/dataviz).
+                            <br /><br />                            
+                            *Criado com [Dashbuilder](https://www.dashbuilder.org/)*
+
+                            <hr />
+
+                      - markdown: "**Filtrar por UF**"
+                      - properties:
+                            width: 160px
+                        settings:
+                            type: SELECTOR
+                            filter:
+                                notification: true
+                            lookup:
+                                uuid: pop
+                                sort:
+                                    - column: UF
+                                      order: ASCENDING
+                                group:
+                                    - columnGroup:
+                                          source: UF
+                                      functions:
+                                          - source: UF
+
+          - columns:
+                - components:
+                      - screen: Resumo
+                      - html: <hr />
+                      - panel: População
+                      - panel: Variação (top ${variacao_total})
+                      - panel: Variação por Estado
+                      - panel: Tabela de dados
+    - name: Resumo
+      rows:
+          - columns:
+                - span: 3
+                  components:
+                      - settings:
+                            type: METRIC
+                            general:
+                                title: Mais populoso
+                            lookup:
+                                uuid: pop
+                                sort:
+                                    - column: POP2022
+                                      order: DESCENDING
+                                group:
+                                    - functions:
+                                          - source: MUNICIPIO
+                                          - source: POP2022
+                - span: 3
+                  components:
+                      - settings:
+                            type: METRIC
+                            general:
+                                title: Menos populoso
+                            lookup:
+                                uuid: pop
+                                sort:
+                                    - column: POP2022
+                                      order: ASCENDING
+                                group:
+                                    - functions:
+                                          - source: MUNICIPIO
+                                          - source: POP2022
+                - span: 3
+                  components:
+                      - settings:
+                            type: METRIC
+                            general:
+                                title: Maior aumento populacional
+                            lookup:
+                                uuid: pop
+                                sort:
+                                    - column: VARIACAO
+                                      order: DESCENDING
+                                group:
+                                    - functions:
+                                          - source: MUNICIPIO
+                                          - source: VARIACAO
+                - span: 3
+                  components:
+                      - settings:
+                            type: METRIC
+                            general:
+                                title: Menor aumento populacional
+                            lookup:
+                                uuid: pop
+                                rowCount: 1
+                                sort:
+                                    - column: VARIACAO
+                                      order: ASCENDING
+                                group:
+                                    - functions:
+                                          - source: MUNICIPIO
+                                          - source: VARIACAO
+    - name: População
+      properties:
+          margin-top: 10px
+      rows:
+          - columns:
+                - components:
+                      - settings:
+                            type: BARCHART
+                            general:
+                                title: Top ${variacao_total} Municípios mais Populosos
+                            axis:
+                                x:
+                                    labels_angle: 15
+                            chart:
+                                height: 300
+                                margin:
+                                    bottom: 40
+                            lookup:
+                                uuid: pop
+                                rowCount: ${variacao_total}
+                                sort:
+                                    - column: POP2022
+                                      order: DESCENDING
+                                group:
+                                    - columnGroup:
+                                          source: MUNICIPIO
+                                      groupFunctions:
+                                          - source: MUNICIPIO
+                                          - source: POP2010
+                                            function: MAX
+                                          - source: POP2022
+                                            function: MAX
+
+                      - properties:
+                            margin-top: 40px
+                            margin-left: 10px
+                        markdown: >-
+                            ## **População por Estado**
+                            <hr />
+                - span: 2
+                  components:
+                      - markdown:
+                      - settings:
+                            component: map
+                            chart:
+                                margin:
+                                    left: 0
+                                    right: 10
+                            external:
+                                width: 400px
+                                height: 300px
+                            map:
+                                geoUrl: https://raw.githubusercontent.com/sjcdigital/geo-json/main/Brasil.json
+                                enableZoom: "true"
+                                minZoom: "1"
+                                maxZoom: "20"
+                                zoom: "5"
+                                fill: white
+                                background: white
+                                strokeWidth: "0.2"
+                                projection: geoMercator
+                                zoomCenterLat: "-10.749997"
+                                zoomCenterLong: "-47.9499962"
+                                fillBegin: white
+                                fillEnd: darkblue
+                                geoKey: "UF"
+                            lookup:
+                                uuid: pop
+                                group:
+                                    - columnGroup:
+                                          source: UF
+                                      groupFunctions:
+                                          - source: UF
+                                          - source: POP2022
+                                            function: SUM
+                - span: 10
+                  components:
+                      - settings:
+                            type: BARCHART
+
+                            axis:
+                                x:
+                                    labels_angle: 0
+                            chart:
+                                height: 300
+                                margin:
+                                    bottom: 20
+                                    left: 200
+                                    right: 10
+                            lookup:
+                                uuid: pop
+                                sort:
+                                    - column: POP2022
+                                      order: DESCENDING
+                                group:
+                                    - columnGroup:
+                                          source: UF
+                                      groupFunctions:
+                                          - source: UF
+                                          - source: POP2010
+                                            function: SUM
+                                          - source: POP2022
+                                            function: SUM
+    - name: Variação por Estado
+      rows:
+          - columns:
+                - span: 4
+                  components:
+                      - markdown:
+                      - settings:
+                            component: map
+                            chart:
+                                margin:
+                                    left: 0
+                                    right: 10
+                            external:
+                                width: 600px
+                                height: 450px
+                            map:
+                                geoUrl: https://raw.githubusercontent.com/sjcdigital/geo-json/main/Brasil.json
+                                enableZoom: "true"
+                                minZoom: "1"
+                                maxZoom: "20"
+                                zoom: "5"
+                                fill: white
+                                background: white
+                                strokeWidth: "0.2"
+                                projection: geoMercator
+                                zoomCenterLat: "-12.749997"
+                                zoomCenterLong: "-47.9499962"
+                                fillBegin: white
+                                fillEnd: blue
+                                geoKey: "UF"
+                            lookup:
+                                uuid: pop
+                                group:
+                                    - columnGroup:
+                                          source: UF
+                                      groupFunctions:
+                                          - source: UF
+                                          - source: VARIACAO
+                                            function: SUM
+                - span: 8
+                  rows:
+                      - columns:
+                            - components:
+                                  - settings:
+                                        type: BARCHART
+                                        general:
+                                            title: Variação População
+                                        axis:
+                                            x:
+                                                labels_angle: 0
+                                        chart:
+                                            height: 220
+                                            margin:
+                                                bottom: 20
+                                                left: 100
+                                                right: 40
+                                        lookup:
+                                            uuid: pop
+                                            sort:
+                                                - column: VARIACAO
+                                                  order: DESCENDING
+                                            group:
+                                                - columnGroup:
+                                                      source: UF
+                                                  groupFunctions:
+                                                      - source: UF
+                                                      - source: VARIACAO
+                                                        function: SUM
+
+                                  - properties:
+                                        margin-top: 20px
+                                    settings:
+                                        type: BARCHART
+                                        general:
+                                            title: Evolução
+                                        axis:
+                                            x:
+                                                labels_angle: 0
+                                        chart:
+                                            height: 220
+                                            margin:
+                                                bottom: 20
+                                                right: 40
+                                        lookup:
+                                            uuid: pop
+                                            sort:
+                                                - column: VARIACAO
+                                                  order: ASCENDING
+                                            group:
+                                                - columnGroup:
+                                                      source: UF
+                                                  groupFunctions:
+                                                      - source: UF
+                                                      - source: POP2010
+                                                        function: SUM
+                                                      - source: VARIACAO
+                                                        function: SUM
+                                                      - source: POP2022
+                                                        function: SUM
+
+    - name: Variação (top ${variacao_total})
+      rows:
+          - columns:
+                - span: 6
+                  components:
+                      - settings:
+                            type: BARCHART
+                            general:
+                                title: Aumento de Habitantes (%)
+                            extraConfiguration: >-
+                                {
+                                    "tooltip": {
+                                        "formatter": "{c}%"
+                                    }
+                                }
+                            columns:
+                                - id: VALUE
+                                  expression: new Number(value).toFixed(2)
+                            lookup:
+                                uuid: pop
+                                rowCount: ${variacao_total}
+                                sort:
+                                    - column: VARIACAO_PERCENT
+                                      order: DESCENDING
+                                group:
+                                    - columnGroup:
+                                          source: MUNICIPIO
+                                      groupFunctions:
+                                          - source: MUNICIPIO
+                                          - source: VARIACAO_PERCENT
+                                            column: VALUE
+                                            function: MAX
+                - span: 6
+                  components:
+                      - settings:
+                            type: BARCHART
+                            extraConfiguration: >-
+                                {
+                                    "color" : [
+                                        "darkblue"
+                                    ],
+                                    "tooltip": {
+                                        "formatter": "{c}%"
+                                    }
+                                }
+                            columns:
+                                - id: VALUE
+                                  expression: new Number(value).toFixed(2)
+                            general:
+                                title: Diminuição de Habitantes (%)
+                            lookup:
+                                uuid: pop
+                                rowCount: ${variacao_total}
+                                sort:
+                                    - column: VARIACAO_PERCENT
+                                      order: ASCENDING
+                                group:
+                                    - columnGroup:
+                                          source: MUNICIPIO
+                                      groupFunctions:
+                                          - source: MUNICIPIO
+                                          - source: VARIACAO_PERCENT
+                                            column: VALUE
+                                            function: MAX
+          - columns:
+                - components:
+                      - html: <hr />
+          - columns:
+                - span: 6
+                  components:
+                      - settings:
+                            type: BARCHART
+                            general:
+                                title: Aumento de Habitantes
+                            lookup:
+                                uuid: pop
+                                rowCount: ${variacao_total}
+                                sort:
+                                    - column: VARIACAO
+                                      order: DESCENDING
+                                group:
+                                    - columnGroup:
+                                          source: MUNICIPIO
+                                      groupFunctions:
+                                          - source: MUNICIPIO
+                                          - source: VARIACAO
+                                            function: MAX
+                - span: 6
+                  components:
+                      - settings:
+                            type: BARCHART
+                            extraConfiguration: >-
+                                {
+                                    "color" : ["darkblue"]
+                                }
+                            general:
+                                title: Diminuição de Habitantes
+                            lookup:
+                                uuid: pop
+                                rowCount: ${variacao_total}
+                                sort:
+                                    - column: VARIACAO
+                                      order: ASCENDING
+                                group:
+                                    - columnGroup:
+                                          source: MUNICIPIO
+                                      functions:
+                                          - source: MUNICIPIO
+                                          - source: VARIACAO
+                                            function: MAX
+    - name: Tabela de dados
+      rows:
+          - columns:
+                - components:
+                      - settings:
+                            component: table
+                            external:
+                                height: 500px
+                            chart:
+                                margin:
+                                    left: 10
+                                    right: 10
+                            lookup:
+                                uuid: pop
+                                group:
+                                    - functions:
+                                          - source: UF
+                                          - source: MUNICIPIO
+                                            column: Município
+                                          - source: POP2010
+                                            column: População 2010
+                                          - source: POP2022
+                                            column: População 2022
+                                          - source: VARIACAO
+                                            column: Variação
+                                          - source: VARIACAO_PERCENT
+                                            column: Variação (%)
