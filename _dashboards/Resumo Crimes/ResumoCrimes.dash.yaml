@@ -1,0 +1,57 @@
+properties:
+  sheet_id: 1d8oFoZ15wjIR50LttyQ932zqi4Mw7DNWNguVw8OaqhQ
+datasets:
+   - uuid: crimes
+     url: https://docs.google.com/spreadsheets/d/${sheet_id}/gviz/tq?tqx=out:csv
+     cacheEnabled: true
+     columns:
+        - id: Ano
+        - id: Mês
+        - id: ID Município
+        - id: Região SSP
+        - id: Homicídio Doloso
+        - id: Número de Vítimas em Homicídio doloso
+        - id: Homicídio Doloso em Acidente de Trânsito
+        - id: Número de vítimas Homicídio Doloso em Acidente de Trânsito
+        - id: Homicídio Culposo por Acidente de Trânsito
+        - id: Homicídio Culposo Outros
+        - id: Tentatívas de Homicídio
+        - id: Lesão Corporal Seguida de Morte
+        - id: Lesão Corporal Dolosa
+        - id: Lesão Corporal Culposa por Acidente de Trânsito
+        - id: Lesão Corporal Culposa Outras
+        - id: Latrocínio
+        - id: Número de Vítimas em Latrocínio
+        - id: Total de Estupro
+        - id: Estupro
+        - id: Estupro de Vulnerável
+        - id: Total de Roubo outros
+        - id: Roubo (outros)
+        - id: Roube de Veículo
+        - id: Roubo a banco
+        - id: Roubo de Carga
+        - id: Furto (outros)
+        - id: Furto de Veículo
+pages:
+   - properties:
+        margin: 20px
+     components:
+         - properties:
+                width: 200px
+           displayer:
+            type: SELECTOR
+            lookup:
+                uuid: crimes
+                sort:
+                    - order: ASC
+                      column: Ano
+                group:
+                    - columnGroup:
+                        source: Ano
+                      functions:
+                        - source: Ano
+         - displayer:
+               chart:
+                resizable: true
+               lookup:
+                   uuid: crimes
