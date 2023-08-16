@@ -15,10 +15,14 @@ global:
                 bottom: 100
         html:
             html: >-
-                <div id="${this}" class="card-pf card-pf-aggregate-status" style="background-color: ${bgColor}; width: 90%; height: 80px;margin: 10px; border-radius: 10px">
-                <h2 style="font-weight: 600; font-size: large" id="${this}Value">${value} <span id="${this}Suffix" class=""></span></h2>
-                <p style="font-weight: 400" id="${this}Title"><em id="${this}Icon" class=""></em> ${title}</p>
-                </div>
+                    <div style="width: 95%;height: auto;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;">
+                    <div class="pf-v5-c-card pf-m-compact pf-m-rounded pf-v5-u-box-shadow-lg">    
+                            <div class="pf-v5-c-card__title"><div class="pf-v5-c-title pf-m-xl">${value}</div></div>
+                            <div class="pf-v5-c-card__footer">
+                                ${title}
+                            </div>    
+                    </div></div>
+                
         axis:
             x:
                 labels_angle: 30
@@ -44,15 +48,20 @@ pages:
                       margin-left: 10px
                       margin-bottom: 20px
                   components:
-                      - markdown: >-
-                            # **População 2022 (IBGE)**
-                            <br /><br />
+                      - html: >-
+                            <div class="pf-v5-c-title pf-m-2xl">
+                                População 2022 (IBGE)
+                            </div>
+                            <hr class="pf-v5-c-divider" />
+                            <br />
+                            <p class="pf-v5-u-font-size-md">
+                                Dashboard com dados da população divulgados pelo IBGE em 2023. Somos o grupo de dados abertos [Tapioca Aberta](https://github.com/tapiocaaberta/), em caso de problemas ou dados imprecisos nos avise no [Github](https://github.com/tapiocaaberta/dataviz).
+                            <p>
+                            
+                            <br />                          
+                            <em>Criado com <a href="https://www.dashbuilder.org/">Dashbuilder</a></em>
 
-                            ##### Dashboard com dados da população divulgados pelo IBGE em 2023. Somos o grupo de dados abertos [Tapioca Aberta](https://github.com/tapiocaaberta/), em caso de problemas ou dados imprecisos nos avise no [Github](https://github.com/tapiocaaberta/dataviz).
-                            <br /><br />                            
-                            *Criado com [Dashbuilder](https://www.dashbuilder.org/)*
-
-                            <hr />
+                            <hr class="pf-v5-c-divider" />
 
                       - markdown: "**Filtrar por UF**"
                       - properties:
@@ -75,7 +84,11 @@ pages:
           - columns:
                 - components:
                       - screen: Resumo
-                      - html: <hr />
+                        properties:
+                            height: auto
+                            margin: 12px
+                      - html: >-
+                            <hr class="pf-v5-c-divider" />
                       - panel: População
                       - panel: Variação (top ${variacao_total})
                       - panel: Variação por Estado
@@ -462,7 +475,7 @@ pages:
           - columns:
                 - components:
                       - settings:
-                            component: table
+                            type: table
                             external:
                                 height: 500px
                             chart:
