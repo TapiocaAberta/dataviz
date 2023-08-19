@@ -25,21 +25,10 @@ import elemental2.dom.DomGlobal;
 import elemental2.dom.URLSearchParams;
 import org.dashbuilder.client.RuntimeClientLoader;
 import org.dashbuilder.client.RuntimeCommunication;
-import org.dashbuilder.client.perspective.ContentErrorPerspective;
-import org.dashbuilder.client.perspective.DashboardsListPerspective;
-import org.dashbuilder.client.perspective.EmptyPerspective;
-import org.dashbuilder.client.perspective.RuntimePerspective;
-import org.dashbuilder.client.perspective.SamplesPerspective;
-import org.dashbuilder.client.resources.i18n.AppConstants;
+import org.dashbuilder.client.place.PlaceManager;
 import org.dashbuilder.shared.event.UpdatedRuntimeModelEvent;
 import org.dashbuilder.shared.model.DashbuilderRuntimeMode;
 import org.dashbuilder.shared.model.RuntimeServiceResponse;
-import org.uberfire.client.annotations.WorkbenchPartTitle;
-import org.uberfire.client.annotations.WorkbenchPartView;
-import org.uberfire.client.annotations.WorkbenchScreen;
-import org.uberfire.client.mvp.PlaceManager;
-import org.uberfire.client.mvp.UberElemental;
-import org.uberfire.lifecycle.OnOpen;
 
 /**
  * 
@@ -47,18 +36,11 @@ import org.uberfire.lifecycle.OnOpen;
  * 
  */
 @ApplicationScoped
-@WorkbenchScreen(identifier = RouterScreen.ID)
-public class RouterScreen {
+public class Router {
 
     public static final String ID = "RouterScreen";
 
     public static final String SAMPLES_PARAM = "samples";
-
-    private static AppConstants i18n = AppConstants.INSTANCE;
-
-    public interface View extends UberElemental<RouterScreen> {
-
-    }
 
     @Inject
     RuntimeClientLoader clientLoader;
@@ -81,31 +63,13 @@ public class RouterScreen {
     @Inject
     PlaceManager placeManager;
 
-    @Inject
-    View view;
-
     private DashbuilderRuntimeMode mode;
-
-    @WorkbenchPartTitle
-    public String title() {
-        return i18n.routerScreenTitle();
-    }
-
-    @WorkbenchPartView
-    public View getView() {
-        return view;
-    }
-
-    @OnOpen
-    public void onOpen() {
-        doRoute();
-    }
 
     public void doRoute() {
         var query = new URLSearchParams(DomGlobal.window.location.search);
         // shortcut to samples screen
         if (query.get(SAMPLES_PARAM) != null && clientLoader.hasSamples()) {
-            placeManager.goTo(SamplesPerspective.ID);
+            placeManager.goTo(SamplesScreen.ID);
             return;
         }
         clientLoader.load(this::route,
@@ -123,7 +87,7 @@ public class RouterScreen {
         if (runtimeModelOp.isPresent()) {
             var runtimeModel = runtimeModelOp.get();
             var layoutTemplates = runtimeModel.getLayoutTemplates();
-            placeManager.goTo(RuntimePerspective.ID);
+            placeManager.goTo(RuntimeScreen.ID);
             runtimeScreen.loadDashboards(runtimeModel);
             runtimeScreen.goToIndex(layoutTemplates);
             return;
@@ -140,7 +104,7 @@ public class RouterScreen {
 
         runtimeScreen.clearCurrentSelection();
         dashboardsListScreen.loadList(response.getAvailableModels());
-        placeManager.goTo(DashboardsListPerspective.ID);
+        placeManager.goTo(DashboardsListScreen.ID);
     }
 
     public void afterDashboardUpload(String id) {
@@ -168,7 +132,7 @@ public class RouterScreen {
     public void goToContentError(Throwable contentException) {
         DomGlobal.console.debug(contentException);
         contentErrorScreen.showContentError(contentException.getMessage());
-        placeManager.goTo(ContentErrorPerspective.ID);
+        placeManager.goTo(ContentErrorScreen.ID);
     }
 
     public void onUpdatedRuntimeModelEvent(@Observes UpdatedRuntimeModelEvent updatedRuntimeModelEvent) {
@@ -176,7 +140,6 @@ public class RouterScreen {
 
         if (updatedModel.equals(clientLoader.getImportId()) || clientLoader.isEditor()) {
             doRoute();
-            runtimeScreen.setKeepHistory(true);
         }
     }
 
@@ -187,10 +150,10 @@ public class RouterScreen {
 
     private void goToNoModelsScreen() {
         if (clientLoader.isSamplesDefaultHome()) {
-            placeManager.goTo(SamplesPerspective.ID);
+            placeManager.goTo(SamplesScreen.ID);
         } else {
-            placeManager.goTo(EmptyPerspective.ID);
+            placeManager.goTo(EmptyScreen.ID);
         }
-
     }
+
 }
