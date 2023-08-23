@@ -26,6 +26,7 @@ import elemental2.dom.Element;
 import jsinterop.base.Js;
 import org.dashbuilder.client.place.PlaceManager;
 import org.dashbuilder.client.screens.Router;
+import org.dashbuilder.patternfly.busyindicator.BusyIndicator;
 import org.jboss.errai.common.client.dom.elemental2.Elemental2DomUtil;
 import org.jboss.errai.ioc.client.api.EntryPoint;
 import org.jboss.errai.ui.shared.api.annotations.Bundle;
@@ -44,6 +45,9 @@ public class RuntimeEntryPoint {
     @Inject
     Router router;
 
+    @Inject
+    BusyIndicator busyIndicator;
+
     @PostConstruct
     public void onLoad() {
         var root = DomGlobal.document.getElementById("app");
@@ -53,6 +57,9 @@ public class RuntimeEntryPoint {
         hideLoading();
         placeManager.setup(root);
         router.doRoute();
+
+        DomGlobal.document.body.appendChild(busyIndicator.getElement());
+
     }
 
     private void hideLoading() {

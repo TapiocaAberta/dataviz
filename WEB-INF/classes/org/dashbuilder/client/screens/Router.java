@@ -28,6 +28,7 @@ import org.dashbuilder.client.RuntimeCommunication;
 import org.dashbuilder.client.place.PlaceManager;
 import org.dashbuilder.shared.event.UpdatedRuntimeModelEvent;
 import org.dashbuilder.shared.model.DashbuilderRuntimeMode;
+import org.dashbuilder.shared.model.RuntimeModel;
 import org.dashbuilder.shared.model.RuntimeServiceResponse;
 
 /**
@@ -86,10 +87,7 @@ public class Router {
 
         if (runtimeModelOp.isPresent()) {
             var runtimeModel = runtimeModelOp.get();
-            var layoutTemplates = runtimeModel.getLayoutTemplates();
-            placeManager.goTo(RuntimeScreen.ID);
-            runtimeScreen.loadDashboards(runtimeModel);
-            runtimeScreen.goToIndex(layoutTemplates);
+            showRuntimeModel(runtimeModel);
             return;
         }
 
@@ -154,6 +152,13 @@ public class Router {
         } else {
             placeManager.goTo(EmptyScreen.ID);
         }
+    }
+
+    public void showRuntimeModel(RuntimeModel runtimeModel) {
+        var layoutTemplates = runtimeModel.getLayoutTemplates();
+        placeManager.goTo(RuntimeScreen.ID);
+        runtimeScreen.loadDashboards(runtimeModel);
+        runtimeScreen.goToIndex(layoutTemplates);
     }
 
 }

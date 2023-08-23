@@ -92,8 +92,13 @@ public class UploadWidget implements IsElement {
             var reader = new FileReader();
             reader.onload = p -> {
                 try {
-                    runtimeClientLoader.loadContentAndRoute(reader.result.asString());
-                    routerScreen.doRoute();
+                    
+                    var loadedContent = runtimeClientLoader.loadContentAndRoute(reader.result.asString());
+                    if(loadedContent != null) {
+                        routerScreen.showRuntimeModel(loadedContent);
+                    } else {
+                        routerScreen.doRoute();
+                    }
                 } catch(Exception e) {
                     e.printStackTrace();
                     DomGlobal.console.log(e);

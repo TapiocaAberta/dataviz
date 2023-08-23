@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
@@ -30,7 +31,6 @@ import org.dashbuilder.client.widgets.SampleCard;
 import org.dashbuilder.client.widgets.SamplesCardRow;
 import org.jboss.errai.ioc.client.api.ManagedInstance;
 import org.uberfire.client.mvp.UberElemental;
-import org.uberfire.lifecycle.OnClose;
 
 /**
  * Screen displayed when there's no dashboards available and samples url is configured
@@ -87,7 +87,7 @@ public class SamplesScreen implements Place {
         view.addRows(rows);
     }
 
-    @OnClose
+    @PreDestroy
     public void clear() {
         sampleCardInstance.destroyAll();
         samplesCardRowInstance.destroyAll();
