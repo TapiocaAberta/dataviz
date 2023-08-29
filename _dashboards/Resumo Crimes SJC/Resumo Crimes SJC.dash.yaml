@@ -1,57 +1,261 @@
+global:
+    displayer:
+        chart:
+            resizable: true
+            grid:
+                x: false
+            legend:
+                show: true
+        columns:
+            - id: Homicídio Doloso
+              pattern: "#"
+            - id: Número de Vítimas em Homicídio doloso
+              pattern: "#"
+            - id: Homicídio Doloso em Acidente de Trânsito
+              pattern: "#"
+            - id: Número de vítimas Homicídio Doloso em Acidente de Trânsito
+              pattern: "#"
+            - id: Homicídio Culposo por Acidente de Trânsito
+              pattern: "#"
+            - id: Homicídio Culposo Outros
+              pattern: "#"
+            - id: Tentatívas de Homicídio
+              pattern: "#"
+            - id: Lesão Corporal Seguida de Morte
+              pattern: "#"
+            - id: Lesão Corporal Dolosa
+              pattern: "#"
+            - id: Lesão Corporal Culposa por Acidente de Trânsito
+              pattern: "#"
+            - id: Lesão Corporal Culposa Outras
+              pattern: "#"
+            - id: Latrocínio
+              pattern: "#"
+            - id: Número de Vítimas em Latrocínio
+              pattern: "#"
+            - id: Total de Estupro
+              pattern: "#"
+            - id: Estupro
+              pattern: "#"
+            - id: Estupro de Vulnerável
+              pattern: "#"
+            - id: Total de Roubo outros
+              pattern: "#"
+            - id: Roubo (outros)
+              pattern: "#"
+            - id: Roubo de Veículo
+              pattern: "#"
+            - id: Roubo a banco
+              pattern: "#"
+            - id: Roubo de Carga
+              pattern: "#"
+            - id: Furto (outros)
+              pattern: "#"
+            - id: Furto de Veículo
+              pattern: "#"
+        lookup:
+            uuid: crimes
 properties:
-  sheet_id: 1d8oFoZ15wjIR50LttyQ932zqi4Mw7DNWNguVw8OaqhQ
+    sheet_id: 1d8oFoZ15wjIR50LttyQ932zqi4Mw7DNWNguVw8OaqhQ
+navTree:
+    root_items:
+        - type: GROUP
+          id: Páginas
+          children:
+              - page: Homicídios
+              - page: Roubos e Furtos
+              - page: Lista
+              - page: Lesão Corporal
+
 datasets:
-   - uuid: crimes
-     url: https://docs.google.com/spreadsheets/d/${sheet_id}/gviz/tq?tqx=out:csv
-     cacheEnabled: true
-     columns:
-        - id: Ano
-        - id: Mês
-        - id: ID Município
-        - id: Região SSP
-        - id: Homicídio Doloso
-        - id: Número de Vítimas em Homicídio doloso
-        - id: Homicídio Doloso em Acidente de Trânsito
-        - id: Número de vítimas Homicídio Doloso em Acidente de Trânsito
-        - id: Homicídio Culposo por Acidente de Trânsito
-        - id: Homicídio Culposo Outros
-        - id: Tentatívas de Homicídio
-        - id: Lesão Corporal Seguida de Morte
-        - id: Lesão Corporal Dolosa
-        - id: Lesão Corporal Culposa por Acidente de Trânsito
-        - id: Lesão Corporal Culposa Outras
-        - id: Latrocínio
-        - id: Número de Vítimas em Latrocínio
-        - id: Total de Estupro
-        - id: Estupro
-        - id: Estupro de Vulnerável
-        - id: Total de Roubo outros
-        - id: Roubo (outros)
-        - id: Roube de Veículo
-        - id: Roubo a banco
-        - id: Roubo de Carga
-        - id: Furto (outros)
-        - id: Furto de Veículo
+    - uuid: crimes
+      url: https://docs.google.com/spreadsheets/d/${sheet_id}/gviz/tq?tqx=out:csv
+      cacheEnabled: true
+      columns:
+          - id: Ano
+          - id: Mês
+          - id: ID Município
+          - id: Região SSP
+          - id: Homicídio Doloso
+          - id: Número de Vítimas em Homicídio doloso
+          - id: Homicídio Doloso em Acidente de Trânsito
+          - id: Número de vítimas Homicídio Doloso em Acidente de Trânsito
+          - id: Homicídio Culposo por Acidente de Trânsito
+          - id: Homicídio Culposo Outros
+          - id: Tentatívas de Homicídio
+          - id: Lesão Corporal Seguida de Morte
+          - id: Lesão Corporal Dolosa
+          - id: Lesão Corporal Culposa por Acidente de Trânsito
+          - id: Lesão Corporal Culposa Outras
+          - id: Latrocínio
+          - id: Número de Vítimas em Latrocínio
+          - id: Total de Estupro
+          - id: Estupro
+          - id: Estupro de Vulnerável
+          - id: Total de Roubo outros
+          - id: Roubo (outros)
+          - id: Roubo de Veículo
+          - id: Roubo a banco
+          - id: Roubo de Carga
+          - id: Furto (outros)
+          - id: Furto de Veículo
 pages:
-   - properties:
-        margin: 20px
-     components:
-         - properties:
+    - name: index
+      properties:
+          margin: 20px
+      components:
+          - title: Ocorrências policiais Em São José dos Campos
+            properties:
+                size: 2xl
+          - type: TILES
+            properties:
+                navGroupId: Páginas
+    - name: filter
+      properties:
+          margin: 20px
+      components:
+          - markdown: "**Filtrar por Ano**"
+          - properties:
                 width: 200px
-           displayer:
-            type: SELECTOR
-            lookup:
-                uuid: crimes
-                sort:
-                    - order: ASC
-                      column: Ano
-                group:
-                    - columnGroup:
-                        source: Ano
-                      functions:
-                        - source: Ano
-         - displayer:
-               chart:
-                resizable: true
-               lookup:
-                   uuid: crimes
+            displayer:
+                type: SELECTOR
+                filter:
+                    notification: true
+                lookup:
+                    sort:
+                        - order: ASC
+                          column: Ano
+                    group:
+                        - columnGroup:
+                              source: Ano
+                          functions:
+                              - source: Ano
+    - name: Homicídios
+      components:
+          - screen: filter
+          - displayer:
+                type: LINECHART
+                general:
+                    title: Homicídio
+                    subtitle: Homicídio doloso e culposo (ano a ano)
+                filter:
+                    listening: true
+                lookup:
+                    sort:
+                        - column: Ano
+                          order: ASCENDING
+                    group:
+                        - columnGroup:
+                              source: Ano
+                          functions:
+                              - source: Ano
+                              - source: Homicídio Doloso
+                                function: SUM
+                              - source: Homicídio Doloso em Acidente de Trânsito
+                                function: SUM
+                              - source: Homicídio Culposo por Acidente de Trânsito
+                                function: SUM
+                              - source: Homicídio Culposo Outros
+                                function: SUM
+                              - source: Tentatívas de Homicídio
+                                function: SUM
+    - name: Roubos e Furtos
+      components:
+          - screen: filter
+          - displayer:
+                type: LINECHART
+                general:
+                    title: Roubos e Furtos
+                    subtitle: Roubos e furtos (ano a ano)
+                filter:
+                    listening: true
+                lookup:
+                    sort:
+                        - column: Ano
+                          order: ASCENDING
+                    group:
+                        - columnGroup:
+                              source: Ano
+                          functions:
+                              - source: Ano
+                              - source: Roubo de Veículo
+                                function: SUM
+                              - source: Roubo a banco
+                                function: SUM
+                              - source: Furto de Veículo
+                                function: SUM
+                              - source: Furto (outros)
+                                function: SUM
+                              - source: Furto de Veículo
+                                function: SUM
+                              - source: Total de Roubo outros
+                                function: SUM
+                              - source: Latrocínio
+                                function: SUM
+    - name: Lesão Corporal
+      components:
+          - screen: filter
+          - displayer:
+                type: LINECHART
+                general:
+                    title: Roubos e Furtos
+                    subtitle: Roubos e furtos (ano a ano)
+                filter:
+                    listening: true
+                lookup:
+                    sort:
+                        - column: Ano
+                          order: ASCENDING
+                    group:
+                        - columnGroup:
+                              source: Ano
+                          functions:
+                              - source: Ano
+                              - source: Lesão Corporal Seguida de Morte
+                                function: SUM
+                              - source: Lesão Corporal Dolosa
+                                function: SUM
+                              - source: Lesão Corporal Culposa por Acidente de Trânsito
+                                function: SUM
+                              - source: Lesão Corporal Culposa Outras
+                                function: SUM
+
+    - name: Lista
+      components:
+          - screen: filter
+          - displayer:
+                component: table
+                filter:
+                    listening: true
+                chart:
+                    resizable: true
+                    height: 800
+                lookup:
+                    group:
+                        - functions:
+                              - source: Ano
+                              - source: Mês
+                              - source: Região SSP
+                              - source: Homicídio Doloso
+                              - source: Número de Vítimas em Homicídio doloso
+                              - source: Homicídio Doloso em Acidente de Trânsito
+                              - source: Número de vítimas Homicídio Doloso em Acidente de Trânsito
+                              - source: Homicídio Culposo por Acidente de Trânsito
+                              - source: Homicídio Culposo Outros
+                              - source: Tentatívas de Homicídio
+                              - source: Lesão Corporal Seguida de Morte
+                              - source: Lesão Corporal Dolosa
+                              - source: Lesão Corporal Culposa por Acidente de Trânsito
+                              - source: Lesão Corporal Culposa Outras
+                              - source: Latrocínio
+                              - source: Número de Vítimas em Latrocínio
+                              - source: Total de Estupro
+                              - source: Estupro
+                              - source: Estupro de Vulnerável
+                              - source: Total de Roubo outros
+                              - source: Roubo (outros)
+                              - source: Roubo de Veículo
+                              - source: Roubo a banco
+                              - source: Roubo de Carga
+                              - source: Furto (outros)
+                              - source: Furto de Veículo
