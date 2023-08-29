@@ -1,5 +1,13 @@
 global:
     displayer:
+        extraConfiguration: >-
+            {
+                "xAxis": {
+                  "axisLabel": {
+                    "interval": 3
+                  }
+                }
+            }
         chart:
             resizable: true
             grid:
