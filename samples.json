@@ -17,7 +17,7 @@
       { "id": "Documentos da Emenda" },
       { "id": "Orçamento Secreto" }
     ],
-    "Educação": [{ "id": "ENEM x CACs" }, { "id": "IDEB x FUNDEB" }],
+    "Educação": [{ "id": "ENEM x CACs" }, { "id": "IDEB x FUNDEB" }, { "id": "IDEB 2023" }],
     "Política Partidária": [
       { "id": "Votos no Segundo Turno para Presidente" },
       { "id": "Filiação Partidária" },
