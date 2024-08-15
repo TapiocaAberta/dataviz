@@ -1,0 +1,121 @@
+global:
+  mode: dark
+  settings:
+    chart:
+      resizable: true
+datasets:
+  - uuid: ideb_anos_iniciais
+    url: https://raw.githubusercontent.com/TapiocaAberta/data-etl/main/ideb/2005_2023_ideb_anos_iniciais.csv
+    cacheEnabled: true
+pages:
+  - properties:
+      margin-left: 5px
+    components:
+      - markdown: |
+          <div class="pf-v5-c-content">
+              <h1>Dados do IDEB 2023 (anos iniciais)</h1>
+              <p>
+              Nesse dashboard você encontra dados dos IDEB 2023 (anos iniciais) para comparar e verificar a evolução de cada ano.
+              </p>
+              <p>
+              Use a tabela abaixo para filtrar por estado.
+              </p>
+              <p>
+                  <a href="https://www.gov.br/inep/pt-br/areas-de-atuacao/pesquisas-estatisticas-e-indicadores/ideb/resultados">Fonte dos dados</a>
+              </p>
+              <p>
+                  <a href="https://github.com/tapiocaaberta">Tapioca Aberta</a>
+              </p>
+          </div>
+
+        properties:
+          margin-bottom: 25px
+      - settings:
+          extraConfiguration: |
+            {
+                "series" : [{
+                    "barCategoryGap": "30%"
+                     
+                },
+                {},
+                {},
+                {},
+                {},
+                
+                {
+                    "itemStyle": {
+                            "normal": {
+                                "label": {
+                                    "show": true,
+                                    "position": "TOP",
+                                    "fontSize": 10,
+                                    "fontWeight": "bold"
+                                }
+                            }
+                        }
+                    
+                }
+                
+                ]
+            }
+          type: BARCHART
+          general:
+            title: IDEB Por Estado (Anos Iniciais)
+            subtitle: Somente Escolas Públicas
+          filter:
+            listening: true
+          chart:
+            height: 400
+            legend:
+              show: true
+          axis:
+            x:
+              labels_angle: 20
+          lookup:
+            uuid: ideb_anos_iniciais
+            filter:
+              - column: Rede
+                function: NOT_IN
+                args:
+                  - "Total"
+                  - "Privada"
+                  - "Estadual"
+              - column: IDEB 2017
+                function: GREATER_THAN
+                args:
+                  - 0
+
+            group:
+              - functions:
+                  - source: Unidade da Federação
+                  - source: IDEB 2013
+                  - source: IDEB 2015
+                  - source: IDEB 2017
+                  - source: IDEB 2019
+                  - source: IDEB 2021
+                  - source: IDEB 2023
+      - html: >
+          <div class="pf-v5-c-content"> <h3>Dados de todos estados</h3> <small>Selecione um estado para filtrar o
+          gráfico acima</small> </div>
+        properties:
+          margin-top: 20px
+      - settings:
+          chart:
+            height: 500
+          filter:
+            notification: true
+          lookup:
+            uuid: ideb_anos_iniciais
+            group:
+              - functions:
+                  - source: Unidade da Federação
+                  - source: Rede
+                  - source: IDEB 2013
+                  - source: IDEB 2015
+                  - source: IDEB 2017
+                  - source: IDEB 2019
+                  - source: IDEB 2021
+                  - source: IDEB 2023
+          table:
+            sort:
+              enabled: true
